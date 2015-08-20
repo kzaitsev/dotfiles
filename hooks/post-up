@@ -1,5 +1,16 @@
 #!/bin/sh
 
+if [ -f ~/.nvimrc ]; then
+	mv ~/.nvimrc ~/.nvimrc.backup
+fi
+
+if [ -d ~/.nvim ]; then
+	mv ~/.nvim ~/.nvim.backup 
+fi
+
+ln -sv ~/.vimrc ~/.nvimrc 
+ln -sv ~/.vim  ~/.nvim
+
 if hash git 2>/dev/null; then
 	if [[ -d ~/.vim/bundle/Vundle.vim ]]; then 
 		mkdir -p ~/.vim/bundle
