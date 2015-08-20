@@ -1,0 +1,30 @@
+#!/bin/sh
+
+if hash brew 2>/dev/null; then
+	brew install zsh git python python3
+	brew tap neovim/neovim
+	brew install --HEAD neovim
+
+	if hash pip3 2>/dev/null; then
+		pip3 install neovim
+	fi
+
+	if hash pip2 2>/dev/null; then
+		pip2 install neovim
+	fi
+
+	if [ -f ~/.zshrc ]; then
+		mv ~/.zshrc ~/.zshrc.backup
+	fi
+
+	if [ -d ~/.oh-my-zsh ]; then
+		sh ~/.oh-my-zsh/tools/upgrade.sh
+	else
+		if hash curl 2>/dev/null; then
+			sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+		elif hash wget 2>/dev/null; then
+			sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+		fi
+	fi
+fi
+

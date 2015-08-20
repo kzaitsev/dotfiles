@@ -1,0 +1,2 @@
+EXCLUDES="README.md LICENSE *.tags tags"
+DOTFILES_DIRS="$HOME/dotfiles-local $HOME/.dotfiles"

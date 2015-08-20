@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if hash git 2>/dev/null; then
+	if [[ -d ~/.vim/bundle/Vundle.vim ]]; then 
+		mkdir -p ~/.vim/bundle
+		git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+	fi
+
+	$EDITOR -c "execute \"PluginInstall\" | qa"
+	cd ~/.vim/bundle/YouCompleteMe
+	./install.sh --clang-completer --gocode-completer
+fi
