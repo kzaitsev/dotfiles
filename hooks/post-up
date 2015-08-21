@@ -21,3 +21,5 @@ if hash git 2>/dev/null; then
 	cd ~/.vim/bundle/YouCompleteMe
 	./install.sh --clang-completer --gocode-completer
 fi
+
+cp ~/.dotfiles/com.googlecode.iterm2.plist ~/Library/Preferences/
