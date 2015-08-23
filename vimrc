@@ -23,7 +23,8 @@ call vundle#begin()
 
   " VIM Airline
   Plugin 'bling/vim-airline'
-  
+  Plugin 'edkolev/tmuxline.vim'
+
   " NERDTree file browser
   Plugin 'scrooloose/nerdtree'
   Plugin 'jistr/vim-nerdtree-tabs'
@@ -51,8 +52,14 @@ call vundle#begin()
   " Coffee
   Plugin 'kchmck/vim-coffee-script'
 
+  " ReacrJS
+  Plugin 'mxw/vim-jsx'
+
   " Mustache, handlebars
   Plugin 'mustache/vim-mustache-handlebars'
+
+  " SLIM
+  Plugin 'onemanstartup/vim-slim'
 
   " Jade
   Plugin 'digitaltoad/vim-jade'
@@ -135,6 +142,7 @@ autocmd Filetype scala        setlocal ts=2 sw=2 expandtab
 autocmd Filetype java         setlocal ts=2 sw=2 expandtab
 autocmd Filetype python       setlocal ts=4 sw=4 expandtab
 autocmd Filetype ruby         setlocal ts=2 sw=2 expandtab
+autocmd Filetype eruby        setlocal ts=2 sw=2 expandtab
 autocmd Filetype vim          setlocal ts=2 sw=2 expandtab
 autocmd Filetype json         setlocal ts=2 sw=2 expandtab
 autocmd Filetype slim         setlocal ts=2 sw=2 expandtab
