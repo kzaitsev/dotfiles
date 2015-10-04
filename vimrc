@@ -71,6 +71,7 @@ call vundle#end()
 
 filetype plugin indent on
 
+set background=dark
 colorscheme hybrid
 syntax on
 
