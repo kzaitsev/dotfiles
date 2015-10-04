@@ -1,5 +1,5 @@
 [core]
-	excludesfile = ~/.gitignore_global
+	excludesfile = /Users/bugagazavr/.gitignore_global
 	editor = nvim -f
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
@@ -8,5 +8,6 @@
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
 [user]
-	name = Kirill Zaitsev
 	email = kirik910@gmail.com
+[alias]
+	permission-reset = !git diff -p -R | grep -E \"^(diff|(old|new) mode)\" | git apply

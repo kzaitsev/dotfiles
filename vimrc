@@ -25,6 +25,10 @@ call vundle#begin()
   Plugin 'bling/vim-airline'
   Plugin 'edkolev/tmuxline.vim'
 
+  " Search
+  Plugin 'junegunn/fzf'
+  Plugin 'rking/ag.vim'
+
   " NERDTree file browser
   Plugin 'scrooloose/nerdtree'
   Plugin 'jistr/vim-nerdtree-tabs'
@@ -52,7 +56,7 @@ call vundle#begin()
   " Coffee
   Plugin 'kchmck/vim-coffee-script'
 
-  " ReacrJS
+  " ReactJS
   Plugin 'mxw/vim-jsx'
 
   " Mustache, handlebars
@@ -69,16 +73,19 @@ filetype plugin indent on
 
 colorscheme hybrid
 syntax on
+
 set number
 
-let g:airline_theme='dark'
+" Use system clipboard
+set clipboard=unnamed
+
+let g:airline_theme='hybrid'
 let g:airline_powerline_fonts = 1
 
 " NERDTree settings
-" show nerd tree and focus to text
 " autocmd VimEnter * NERDTree | wincmd p
 " exit from nvim if window with text has been closed
-" autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | qa | endif
+autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | qa | endif
 
 " Show tabs
 let g:nerdtree_tabs_open_on_console_startup = 1
@@ -138,10 +145,10 @@ autocmd VimEnter * :IndentGuidesToggle
 " Indentetion settings
 autocmd Filetype html         setlocal ts=2 sw=2 expandtab
 autocmd Filetype yaml         setlocal ts=2 sw=2 expandtab
-autocmd Filetype scala        setlocal ts=2 sw=2 expandtab
+autocmd Filetype scala        setlocal ts=2 sw=2 expandtab omnifunc=eclim#scala#complete#CodeComplete
 autocmd Filetype java         setlocal ts=2 sw=2 expandtab
 autocmd Filetype python       setlocal ts=4 sw=4 expandtab
-autocmd Filetype ruby         setlocal ts=2 sw=2 expandtab
+autocmd Filetype ruby         setlocal ts=2 sw=2 expandtab omnifunc=eclim#ruby#complete#CodeComplete
 autocmd Filetype eruby        setlocal ts=2 sw=2 expandtab
 autocmd Filetype vim          setlocal ts=2 sw=2 expandtab
 autocmd Filetype json         setlocal ts=2 sw=2 expandtab
