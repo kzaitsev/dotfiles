@@ -23,6 +23,10 @@ call vundle#begin()
 
   " VIM Airline
   Plugin 'bling/vim-airline'
+
+  " TMUX support
+  Plugin 'jpalardy/vim-slime'
+  Plugin 'jgdavey/tslime.vim'
   Plugin 'edkolev/tmuxline.vim'
 
   " Search
@@ -142,6 +146,23 @@ let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 
+" Ruby settings
+let g:ruby_path = system('rvm current')
+let g:ruby_indent_access_modifier_style = 'outdent'
+let ruby_operators = 1
+autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
+
+" Tmux support
+let g:slime_target = 'tmux'
+let g:slime_paste_file = "$HOME/.slime_paste"
+let g:slime_paste_file = tempname()
+let g:slime_default_config = {"socket_name": "default", "target_pane": "1"}
+
+" Git support
+autocmd Filetype gitcommit  setlocal spell textwidth=72
+
 " Xkb switch settings
 let g:XkbSwitchEnabled = 1
 let g:XkbSwitchILayout = 'us'
@@ -174,12 +195,6 @@ autocmd Filetype css          setlocal ts=2 sw=2 expandtab
 autocmd Filetype mustache     setlocal ts=2 sw=2 expandtab
 autocmd Filetype javascript   setlocal ts=2 sw=2 expandtab
 autocmd Filetype coffeescript setlocal ts=2 sw=2 expandtab
-
-" Some customizations
-autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
-autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
-autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
-autocmd Filetype gitcommit  setlocal spell textwidth=72
 
 " Limit line size
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
