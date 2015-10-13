@@ -49,6 +49,7 @@ call vundle#begin()
   " Ruby
   Plugin 'vim-ruby/vim-ruby'
   Plugin 'Blackrush/vim-gocode'
+  Plugin 'tpope/vim-rails'
 
   " Go
   Plugin 'fatih/vim-go'
@@ -67,6 +68,9 @@ call vundle#begin()
 
   " Jade
   Plugin 'digitaltoad/vim-jade'
+
+  " Stylus
+  Plugin 'wavded/vim-stylus'
 call vundle#end()
 
 filetype plugin indent on
@@ -79,6 +83,15 @@ set number
 
 " Use system clipboard
 set clipboard=unnamed
+
+" Disable tmp files
+set nobackup
+set nowb
+set noswapfile
+
+if executable('zsh')
+  set shell=zsh
+endif
 
 let g:airline_theme='hybrid'
 let g:airline_powerline_fonts = 1
@@ -146,11 +159,12 @@ autocmd VimEnter * :IndentGuidesToggle
 " Indentetion settings
 autocmd Filetype html         setlocal ts=2 sw=2 expandtab
 autocmd Filetype yaml         setlocal ts=2 sw=2 expandtab
-autocmd Filetype scala        setlocal ts=2 sw=2 expandtab omnifunc=eclim#scala#complete#CodeComplete
+autocmd Filetype scala        setlocal ts=2 sw=2 expandtab
 autocmd Filetype java         setlocal ts=2 sw=2 expandtab
 autocmd Filetype python       setlocal ts=4 sw=4 expandtab
-autocmd Filetype ruby         setlocal ts=2 sw=2 expandtab omnifunc=eclim#ruby#complete#CodeComplete
+autocmd Filetype ruby         setlocal ts=2 sw=2 expandtab
 autocmd Filetype eruby        setlocal ts=2 sw=2 expandtab
+autocmd Filetype stylus       setlocal ts=2 sw=2 expandtab
 autocmd Filetype vim          setlocal ts=2 sw=2 expandtab
 autocmd Filetype json         setlocal ts=2 sw=2 expandtab
 autocmd Filetype slim         setlocal ts=2 sw=2 expandtab
@@ -160,3 +174,21 @@ autocmd Filetype css          setlocal ts=2 sw=2 expandtab
 autocmd Filetype mustache     setlocal ts=2 sw=2 expandtab
 autocmd Filetype javascript   setlocal ts=2 sw=2 expandtab
 autocmd Filetype coffeescript setlocal ts=2 sw=2 expandtab
+
+" Some customizations
+autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
+autocmd Filetype gitcommit  setlocal spell textwidth=72
+
+" Limit line size
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%81v.\+/
+
+if &term =~ '^screen'
+    " tmux will send xterm-style keys when its xterm-keys option is on
+    execute "set <xUp>=\e[1;*A"
+    execute "set <xDown>=\e[1;*B"
+    execute "set <xRight>=\e[1;*C"
+    execute "set <xLeft>=\e[1;*D"
+endif

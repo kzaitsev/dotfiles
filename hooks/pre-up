@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if hash brew 2>/dev/null; then
-	brew install zsh git python python3
+	brew install zsh git python python3 the_silver_searcher tmux fzf
 	brew tap neovim/neovim
 	brew install --HEAD neovim
 
