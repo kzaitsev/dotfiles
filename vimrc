@@ -75,6 +75,9 @@ call vundle#begin()
 
   " Stylus
   Plugin 'wavded/vim-stylus'
+
+  " Fun
+  Plugin 'wakatime/vim-wakatime'
 call vundle#end()
 
 filetype plugin indent on
@@ -128,7 +131,22 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
+" Ag settings
+if executable('ag')
+  " Use Ag over Grep
+  set grepprg=ag\ --nogroup\ --nocolor
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+else
+  " Fall back to using git ls-files if Ag is not available
+  let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
+  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others']
+endif
+
+" Syntastics
+let g:syntastic_always_populate_loc_list = 0
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_wq = 0
 
@@ -136,7 +154,6 @@ let g:syntastic_check_on_wq = 0
 " let g:deoplete#enable_at_startup = 1
 
 " Scala support
-let g:scala_sort_across_groups=1
 
 " Golang support
 let g:go_fmt_autosave = 1
@@ -200,10 +217,15 @@ autocmd Filetype coffeescript setlocal ts=2 sw=2 expandtab
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 match OverLength /\%81v.\+/
 
-if &term =~ '^screen'
-    " tmux will send xterm-style keys when its xterm-keys option is on
-    execute "set <xUp>=\e[1;*A"
-    execute "set <xDown>=\e[1;*B"
-    execute "set <xRight>=\e[1;*C"
-    execute "set <xLeft>=\e[1;*D"
-endif
+" Hotkeys
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
+set mouse=""
+
+let mapleader=","
+nmap <Leader>n :NERDTreeToggle<CR>
+nmap <Leader>g :Ag!<CR>
+nmap <Leader>f :FZF<CR>
+
