@@ -49,6 +49,9 @@ call vundle#begin()
   " Languages support
   " Scala
   Plugin 'derekwyatt/vim-scala'
+  
+  " HOCON
+  Plugin 'GEverding/vim-hocon'
 
   " Ruby
   Plugin 'vim-ruby/vim-ruby'
@@ -212,6 +215,7 @@ autocmd Filetype css          setlocal ts=2 sw=2 expandtab
 autocmd Filetype mustache     setlocal ts=2 sw=2 expandtab
 autocmd Filetype javascript   setlocal ts=2 sw=2 expandtab
 autocmd Filetype coffeescript setlocal ts=2 sw=2 expandtab
+autocmd Filetype cucumber     setlocal ts=2 sw=2 expandtab
 
 " Limit line size
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
