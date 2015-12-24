@@ -55,6 +55,9 @@ call vundle#begin()
   Plugin 'Blackrush/vim-gocode'
   Plugin 'tpope/vim-rails'
 
+  " Crystal
+  Plugin 'rhysd/vim-crystal'
+
   " Go
   Plugin 'fatih/vim-go'
 
@@ -69,6 +72,10 @@ call vundle#begin()
 
   " SLIM
   Plugin 'onemanstartup/vim-slim'
+  
+  " Elixir
+  Plugin 'elixir-lang/vim-elixir'
+  Plugin 'awetzel/neovim-elixir'
 
   " Jade
   Plugin 'digitaltoad/vim-jade'
@@ -212,6 +219,7 @@ autocmd Filetype css          setlocal ts=2 sw=2 expandtab
 autocmd Filetype mustache     setlocal ts=2 sw=2 expandtab
 autocmd Filetype javascript   setlocal ts=2 sw=2 expandtab
 autocmd Filetype coffeescript setlocal ts=2 sw=2 expandtab
+autocmd Filetype crystal      setlocal ts=2 sw=2 expandtab
 
 " Limit line size
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929

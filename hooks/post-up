@@ -2,26 +2,10 @@
 
 source ~/.dotfiles/zshrc
 
-if [ -s ~/.nvimrc ]; then
-	echo "unlink your ~/.nvimrc"
-	unlink ~/.nvimrc
-else
-	if [ -f ~/.nvimrc ]; then
-		mv ~/.nvimrc ~/.nvimrc.backup
-	fi
-fi
+mkdir -p ~/.config
 
-if [ -s ~/.nvim ]; then
-	echo "unlink your ~/.nvim"
-	unlink ~/.nvim
-else
-	if [ -d ~/.nvim ]; then
-		mv ~/.nvim ~/.nvim.backup 
-	fi
-fi
-
-ln -sv ~/.vimrc ~/.nvimrc 
-ln -sv ~/.vim  ~/.nvim
+ln -sv ~/.vim  ~/.config/nvim
+ln -sv ~/.vimrc ~/.config/nvim/init.vim 
 
 if hash git 2>/dev/null; then
 	if [[ ! -d ~/.vim/bundle/Vundle.vim ]]; then 
