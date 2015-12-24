@@ -14,12 +14,15 @@ call vundle#begin()
 
   " Xkb switch
   Plugin 'lyokha/vim-xkbswitch'
-	
+
   " Vim Tags
   Plugin 'soramugi/auto-ctags.vim'
 
   " Hybrid theme
   Plugin 'w0ng/vim-hybrid'
+
+  " Whitespaces
+  Plugin 'ntpeters/vim-better-whitespace'
 
   " VIM Airline
   Plugin 'bling/vim-airline'
@@ -39,16 +42,19 @@ call vundle#begin()
 
   " Editorconfig
   Plugin 'editorconfig/editorconfig-vim'
-  
+
   " Syntax analyze ( so slow )
   Plugin 'scrooloose/syntastic'
 
   " Autocomplete
   Plugin 'Valloric/YouCompleteMe'
-  
+
   " Languages support
   " Scala
   Plugin 'derekwyatt/vim-scala'
+
+  " HOCON
+  Plugin 'GEverding/vim-hocon'
 
   " Ruby
   Plugin 'vim-ruby/vim-ruby'
@@ -114,6 +120,9 @@ let g:airline_powerline_fonts = 1
 " autocmd VimEnter * NERDTree | wincmd p
 " exit from nvim if window with text has been closed
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | qa | endif
+
+" Whitespace removals
+autocmd BufWritePre * StripWhitespace
 
 " Show tabs
 let g:nerdtree_tabs_open_on_console_startup = 1
@@ -220,6 +229,7 @@ autocmd Filetype mustache     setlocal ts=2 sw=2 expandtab
 autocmd Filetype javascript   setlocal ts=2 sw=2 expandtab
 autocmd Filetype coffeescript setlocal ts=2 sw=2 expandtab
 autocmd Filetype crystal      setlocal ts=2 sw=2 expandtab
+autocmd Filetype cucumber     setlocal ts=2 sw=2 expandtab
 
 " Limit line size
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
