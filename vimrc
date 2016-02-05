@@ -147,6 +147,9 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+
 " Ag settings
 if executable('ag')
   " Use Ag over Grep
@@ -160,11 +163,6 @@ else
   let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
   let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others']
 endif
-
-" Syntastics
-let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_wq = 0
 
 " Autocomplete
 " let g:deoplete#enable_at_startup = 1
@@ -256,4 +254,4 @@ let mapleader=","
 nmap <Leader>n :NERDTreeToggle<CR>
 nmap <Leader>g :Ag!<CR>
 nmap <Leader>f :FZF<CR>
-
+nmap <Leader>s :SyntasticCheck<CR>
