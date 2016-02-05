@@ -7,7 +7,11 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
   Plugin 'VundleVim/Vundle.vim'
   Plugin 'tpope/vim-fugitive'
+  Plugin 'airblade/vim-gitgutter'
   Plugin 'L9'
+
+  " Formatter
+  Plugin 'Chiel92/vim-autoformat'
 
   " Vim ident guides
   Plugin 'nathanaelkane/vim-indent-guides'
@@ -38,6 +42,7 @@ call vundle#begin()
 
   " NERDTree file browser
   Plugin 'scrooloose/nerdtree'
+  Plugin 'Xuyuanp/nerdtree-git-plugin'
   Plugin 'jistr/vim-nerdtree-tabs'
 
   " Editorconfig
@@ -85,6 +90,9 @@ call vundle#begin()
 
   " Jade
   Plugin 'digitaltoad/vim-jade'
+
+  " Haskell
+  Plugin 'neovimhaskell/haskell-vim'
 
   " Stylus
   Plugin 'wavded/vim-stylus'
@@ -251,7 +259,10 @@ noremap <Right> <NOP>
 set mouse=""
 
 let mapleader=","
+nmap <Leader>af :Autoformat<CR>
 nmap <Leader>n :NERDTreeToggle<CR>
 nmap <Leader>g :Ag!<CR>
 nmap <Leader>f :FZF<CR>
 nmap <Leader>s :SyntasticCheck<CR>
+nmap <Leader>b :Gblame<CR>
+nmap <Leader>d :Gdiff<CR>

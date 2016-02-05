@@ -91,4 +91,8 @@ fi
 # Linux brew
 # export PATH="$PATH:$HOME/.linuxbrew/bin"
 
+alias be="bundle exec"
+alias gdff="git diff"
+alias gclean='git branch --merged | grep -v "\*" | grep -v master | grep -v dev | xargs -n 1 git branch -d'
+
 
