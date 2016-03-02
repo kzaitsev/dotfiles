@@ -28,6 +28,9 @@ call vundle#begin()
   " VIM lightline
   Plugin 'itchyny/lightline.vim'
 
+  " Ctags
+  Plugin 'szw/vim-tags'
+
   " TMUX support
   Plugin 'jpalardy/vim-slime'
   Plugin 'jgdavey/tslime.vim'
@@ -136,9 +139,10 @@ let NERDTreeIgnore = ['\.pyc$', '\.tags$', 'tags$', 'tags.lock$', '\.jar$', '^\.
 " Show hidden items
 let NERDTreeShowHidden = 1
 
-" Vim Tags
-let g:auto_ctags = 1
-let g:auto_ctags_filetype_mode = 1
+" Ctags
+let g:vim_tags_directories = [".git", ".hg", ".svn", ".bzr"]
+let g:vim_tags_gems_tags_command = "{CTAGS} -R {OPTIONS} `bundle show --paths` 2>/dev/null"
+let g:vim_tags_auto_generate = 1
 
 " Ag settings
 if executable('ag')
