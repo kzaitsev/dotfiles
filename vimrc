@@ -19,17 +19,17 @@ call vundle#begin()
   " Xkb switch
   Plugin 'lyokha/vim-xkbswitch'
 
-  " Vim Tags
-  Plugin 'soramugi/auto-ctags.vim'
-
   " Hybrid theme
   Plugin 'w0ng/vim-hybrid'
 
   " Whitespaces
   Plugin 'ntpeters/vim-better-whitespace'
 
-  " VIM Airline
-  Plugin 'bling/vim-airline'
+  " VIM lightline
+  Plugin 'itchyny/lightline.vim'
+
+  " Ctags
+  Plugin 'szw/vim-tags'
 
   " TMUX support
   Plugin 'jpalardy/vim-slime'
@@ -45,14 +45,14 @@ call vundle#begin()
   Plugin 'Xuyuanp/nerdtree-git-plugin'
   Plugin 'jistr/vim-nerdtree-tabs'
 
+  " NERDCommenter
+  Plugin 'scrooloose/nerdcommenter'
+
   " Editorconfig
   Plugin 'editorconfig/editorconfig-vim'
 
   " Syntax analyze ( so slow )
   Plugin 'scrooloose/syntastic'
-
-  " Autocomplete
-  Plugin 'Valloric/YouCompleteMe'
 
   " Languages support
   " Scala
@@ -107,6 +107,11 @@ set background=dark
 colorscheme hybrid
 syntax on
 
+set tags=.git/tags
+set dictionary=/usr/share/dict/words
+set langmenu=en_US.UTF-8
+set encoding=utf-8
+set fileencoding=utf-8
 set number
 
 " Use system clipboard
@@ -121,23 +126,11 @@ if executable('zsh')
   set shell=zsh
 endif
 
-let g:airline_theme='hybrid'
-let g:airline_powerline_fonts = 1
-
-" NERDTree settings
-" autocmd VimEnter * NERDTree | wincmd p
-" exit from nvim if window with text has been closed
-autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | qa | endif
-
 " Whitespace removals
 autocmd BufWritePre * StripWhitespace
 
-" Show tabs
-let g:nerdtree_tabs_open_on_console_startup = 1
-
-" sow NERD tree in tab
-let g:nerdtree_tabs_open_on_console_startup = 1
-
+" NERDTree
+" let g:nerdtree_tabs_open_on_console_startup = 1
 let g:nerdtree_tabs_focus_on_files = 1
 
 " Hide usless files
@@ -146,14 +139,10 @@ let NERDTreeIgnore = ['\.pyc$', '\.tags$', 'tags$', 'tags.lock$', '\.jar$', '^\.
 " Show hidden items
 let NERDTreeShowHidden = 1
 
-" Vim Tags
-let g:auto_ctags = 1
-let g:auto_ctags_filetype_mode = 1
-
-" Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" Ctags
+let g:vim_tags_directories = [".git", ".hg", ".svn", ".bzr"]
+let g:vim_tags_gems_tags_command = "{CTAGS} -R {OPTIONS} `bundle show --paths` 2>/dev/null"
+let g:vim_tags_auto_generate = 1
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -216,16 +205,6 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#212121 ctermbg=235
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#404040 ctermbg=237
 autocmd VimEnter * :IndentGuidesToggle
 
-" Fast comment/uncomment
-autocmd FileType c,cpp,java,scala let b:comment_leader = '// '
-autocmd FileType sh,ruby,python   let b:comment_leader = '# '
-autocmd FileType conf,fstab       let b:comment_leader = '# '
-autocmd FileType tex              let b:comment_leader = '% '
-autocmd FileType mail             let b:comment_leader = '> '
-autocmd FileType vim              let b:comment_leader = '" '
-noremap <silent> ,cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
-noremap <silent> ,cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
-
 " Indentetion settings
 autocmd Filetype html         setlocal ts=2 sw=2 expandtab
 autocmd Filetype yaml         setlocal ts=2 sw=2 expandtab
@@ -250,6 +229,23 @@ autocmd Filetype cucumber     setlocal ts=2 sw=2 expandtab
 " Limit line size
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 match OverLength /\%81v.\+/
+
+" Cursor
+if has('nvim')
+  let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+  tnoremap <Esc> <c-\><c-n>
+  tnoremap <C-[> <c-\><c-n>
+
+  highlight TermCursor ctermfg=red guifg=red
+endif
+
+if exists('$TMUX')
+  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
 
 " Hotkeys
 noremap <Up> <NOP>
