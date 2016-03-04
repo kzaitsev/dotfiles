@@ -37,6 +37,7 @@ call vundle#begin()
   Plugin 'edkolev/tmuxline.vim'
 
   " Search
+  Plugin 'ctrlpvim/ctrlp.vim'
   Plugin 'junegunn/fzf'
   Plugin 'rking/ag.vim'
 
