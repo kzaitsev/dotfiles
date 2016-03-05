@@ -261,6 +261,7 @@ let mapleader=","
 nmap <Leader>af :Autoformat<CR>
 nmap <Leader>n :NERDTreeToggle<CR>
 nmap <Leader>g :Ag!<CR>
+nmap <Leader>tn :tabnew<CR>
 nmap <Leader>f :FZF<CR>
 nmap <Leader>b :Gblame<CR>
 nmap <Leader>d :Gdiff<CR>
