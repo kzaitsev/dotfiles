@@ -2,20 +2,15 @@
 
 source ~/.dotfiles/zshrc
 
-mkdir -p ~/.config
-
-ln -sv ~/.vim  ~/.config/nvim
-ln -sv ~/.vimrc ~/.config/nvim/init.vim 
+ln -sv ~/.config/nvim ~/.vim
+ln -sv ~/.config/nvim/init.vim ~/.vimrc
 
 if hash git 2>/dev/null; then
-	if [[ ! -d ~/.vim/bundle/Vundle.vim ]]; then 
-		mkdir -p ~/.vim/bundle
-		git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+	if [[ ! -d ~/.config/nvim/bundle/Vundle.vim ]]; then
+		git clone https://github.com/VundleVim/Vundle.vim.git ~/.config/nvim/bundle/Vundle.vim
 	fi
 
 	$EDITOR -c "execute \"PluginInstall\" | qa"
-	cd ~/.vim/bundle/YouCompleteMe
-	./install.sh --clang-completer --gocode-completer
 fi
 
-cp ~/.dotfiles/com.googlecode.iterm2.plist ~/Library/Preferences/
+cp ~/.dotfiles/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist
