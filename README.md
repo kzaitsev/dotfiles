@@ -1,5 +1,6 @@
-Dotfiles
-========
+#Dotfiles
+
+## Install
 
 install **rcm**
 
@@ -15,3 +16,7 @@ git clone https://github.com/Bugagazavr/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 env RCRC=$HOME/.dotfiles/rcrc rcup
 ```
+## Screenshots
+
+![img](https://raw.githubusercontent.com/Bugagazavr/dotfiles/master/images/vim.png)
+
