@@ -1,17 +1,9 @@
 #!/bin/sh
 
 if hash brew 2>/dev/null; then
-	brew install zsh git python python3 the_silver_searcher tmux fzf
+	brew install zsh git python python3 the_silver_searcher tmux fzf ctags
 	brew tap neovim/neovim
-	brew install --HEAD neovim
-
-	if hash pip3 2>/dev/null; then
-		pip3 install neovim
-	fi
-
-	if hash pip2 2>/dev/null; then
-		pip2 install neovim
-	fi
+	brew install neovim
 
 	if [ -f ~/.zshrc ]; then
 		mv ~/.zshrc ~/.zshrc.backup

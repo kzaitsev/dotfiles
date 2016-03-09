@@ -1,9 +1,10 @@
 [core]
 	excludesfile = /Users/bugagazavr/.gitignore_global
 	editor = nvim -f
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
+[diff]
+	tool = vimdiff
+[difftool]
+	prompt = false
 [mergetool "sourcetree"]
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
@@ -12,3 +13,5 @@
 	name = Kirill Zaitsev
 [alias]
 	permission-reset = !git diff -p -R | grep -E \"^(diff|(old|new) mode)\" | git apply
+[init]
+	templatedir = ~/.git_template

@@ -10,6 +10,9 @@ call vundle#begin()
   Plugin 'airblade/vim-gitgutter'
   Plugin 'L9'
 
+  " RSpec
+  Plugin 'thoughtbot/vim-rspec'
+
   " Formatter
   Plugin 'Chiel92/vim-autoformat'
 
@@ -259,7 +262,13 @@ let mapleader=","
 nmap <Leader>af :Autoformat<CR>
 nmap <Leader>n :NERDTreeToggle<CR>
 nmap <Leader>g :Ag!<CR>
+nmap <Leader>tn :tabnew<CR>
 nmap <Leader>f :FZF<CR>
 nmap <Leader>s :SyntasticCheck<CR>
 nmap <Leader>b :Gblame<CR>
 nmap <Leader>d :Gdiff<CR>
+
+map <Leader>rt :call RunCurrentSpecFile()<CR>
+map <Leader>rs :call RunNearestSpec()<CR>
+map <Leader>rl :call RunLastSpec()<CR>
+map <Leader>ra :call RunAllSpecs()<CR>
