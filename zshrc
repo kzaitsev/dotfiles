@@ -79,8 +79,8 @@ fi
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 # aliases
 
-# RVM
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source $HOME/.rvm/scripts/rvm && export PATH="$PATH:$HOME/.rvm/bin"
+# GRVM
+[[ -s "$HOME/.grvm/scripts/grvm" ]] && source $HOME/.grvm/scripts/grvm
 
 # NVM
 [[ -s "$HOME/.nvm/nvm.sh" ]] && source $HOME/.nvm/nvm.sh
@@ -91,8 +91,16 @@ fi
 # Linux brew
 # export PATH="$PATH:$HOME/.linuxbrew/bin"
 
+function __githubOpen() {
+	open https://github.com/"$@"
+}
+
 alias be="bundle exec"
+alias github=__githubOpen
 alias gdff="git diff"
 alias gclean='git branch --merged | grep -v "\*" | grep -v master | grep -v dev | xargs -n 1 git branch -d'
 
 
+
+# added by travis gem
+[ -f /Users/bugagazavr/.travis/travis.sh ] && source /Users/bugagazavr/.travis/travis.sh
