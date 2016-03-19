@@ -88,6 +88,9 @@ fi
 # Go
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source $HOME/.gvm/scripts/gvm
 
+# Travis
+[[ -s "$HOME/.travis/travis.sh" ]] && source $HOME/.travis/travis.sh
+
 # Linux brew
 # export PATH="$PATH:$HOME/.linuxbrew/bin"
 
@@ -99,8 +102,3 @@ alias be="bundle exec"
 alias github=__githubOpen
 alias gdff="git diff"
 alias gclean='git branch --merged | grep -v "\*" | grep -v master | grep -v dev | xargs -n 1 git branch -d'
-
-
-
-# added by travis gem
-[ -f /Users/bugagazavr/.travis/travis.sh ] && source /Users/bugagazavr/.travis/travis.sh
