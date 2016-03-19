@@ -148,6 +148,9 @@ let g:vim_tags_directories = [".git", ".hg", ".svn", ".bzr"]
 let g:vim_tags_gems_tags_command = "{CTAGS} -R {OPTIONS} `bundle show --paths` 2>/dev/null"
 let g:vim_tags_auto_generate = 1
 
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+
 " Ag settings
 if executable('ag')
   " Use Ag over Grep
@@ -161,11 +164,6 @@ else
   let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
   let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others']
 endif
-
-" Syntastics
-let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_wq = 0
 
 " Autocomplete
 " let g:deoplete#enable_at_startup = 1
@@ -266,6 +264,7 @@ nmap <Leader>n :NERDTreeToggle<CR>
 nmap <Leader>g :Ag!<CR>
 nmap <Leader>tn :tabnew<CR>
 nmap <Leader>f :FZF<CR>
+nmap <Leader>s :SyntasticCheck<CR>
 nmap <Leader>b :Gblame<CR>
 nmap <Leader>d :Gdiff<CR>
 
@@ -273,5 +272,3 @@ map <Leader>rt :call RunCurrentSpecFile()<CR>
 map <Leader>rs :call RunNearestSpec()<CR>
 map <Leader>rl :call RunLastSpec()<CR>
 map <Leader>ra :call RunAllSpecs()<CR>
-
-
