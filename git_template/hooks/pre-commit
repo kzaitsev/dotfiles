@@ -1,0 +1,77 @@
+#!/usr/bin/env ruby
+require 'set'
+
+RUBY_FILES = ['Rakefile', 'Gemfile', 'Capfile', 'Thorfile', 'Podfile', 'config.ru', /.*\.rake/, /.*\.cap/, /.*\.rb/]
+FILES = `git diff --cached --name-only --diff-filter=ACM`.to_s.split("\n").map(&:strip)
+
+def rubocop
+  to_rubocop = FILES.select do |f|
+    RUBY_FILES.find do |rf|
+      f.match(rf)
+    end
+  end
+
+  if to_rubocop.empty?
+    puts 'Rubocop skiped'
+    exit 0
+  else
+    begin
+      require 'rubygems'
+      require 'rubocop'
+    rescue
+      puts 'Rubocop not installed'
+      exit 0
+    end
+
+    config_store = RuboCop::ConfigStore.new
+    options, paths = RuboCop::Options.new.parse(to_rubocop)
+    runner = RuboCop::Runner.new(options, config_store)
+
+    all_passed = runner.run(paths)
+
+    exit_code = all_passed && !runner.aborting? && runner.errors.empty? ? 0 : 1
+    exit exit_code
+  end
+end
+
+def brakeman
+  to_brakeman = FILES.select do |f|
+    RUBY_FILES.find do |rf|
+      f.match(rf)
+    end
+  end
+
+  if to_brakeman.empty?
+    puts 'Brakeman skipped'
+    exit 0
+  else
+    begin
+      require 'rubygems'
+      require 'brakeman'
+    rescue
+      puts 'Brakeman not installed'
+      exit 0
+    end
+
+    options = {only_files: to_brakeman.to_set, app_path: Dir.pwd}
+
+    Brakeman.run(options.merge(print_report: true, quiet: true))
+  end
+end
+
+scenarios = [:rubocop, :brakeman]
+pids = []
+
+scenarios.each do |scenario|
+  pids << fork do
+    send(scenario)
+  end
+end
+
+exit_status = 0
+pids.each do |pid|
+  _, status = Process.wait2(pid)
+  exit_status = status.exitstatus if status.exitstatus > 0
+end
+
+exit exit_status
