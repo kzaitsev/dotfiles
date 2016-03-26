@@ -13,4 +13,10 @@ if hash git 2>/dev/null; then
 	$EDITOR -c "execute \"PluginInstall\" | qa"
 fi
 
+if [[ ! -d ~/.dasht ]]; then
+	git clone https://github.com/sunaku/dasht ~/.dasht
+else
+	cd ~/.dasht && git pull origin master
+fi
+
 cp ~/.dotfiles/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist
