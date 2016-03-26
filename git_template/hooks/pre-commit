@@ -53,7 +53,7 @@ def brakeman
       exit 0
     end
 
-    options = {only_files: to_brakeman.to_set, app_path: Dir.pwd}
+    options = {only_files: to_brakeman.to_set, app_path: Dir.pwd, exit_on_warn: true}
 
     Brakeman.run(options.merge(print_report: true, quiet: true))
   end
