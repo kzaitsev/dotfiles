@@ -67,7 +67,24 @@ def brakeman
   end
 end
 
-scenarios = [:rubocop, :brakeman]
+def bundler_audit
+  if FILES.grep(/Gemfile(\.lock|)/).empty?
+    puts 'skip bundler audit'
+    exit 0
+  else
+    begin
+      require 'rubygems'
+      require 'bundler/audit/cli'
+    rescue LoadError
+      puts 'bundler-audit not installed'
+      exit 0
+    end
+
+    Bundler::Audit::CLI.start
+  end
+end
+
+scenarios = [:rubocop, :brakeman, :bundler_audit]
 pids = []
 
 scenarios.each do |scenario|
