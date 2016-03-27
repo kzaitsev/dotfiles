@@ -20,7 +20,7 @@ def rubocop
     begin
       require 'rubygems'
       require 'rubocop'
-    rescue
+    rescue LoadError
       puts 'Rubocop not installed'
       exit 0
     end
@@ -56,7 +56,7 @@ def brakeman
     begin
       require 'rubygems'
       require 'brakeman'
-    rescue
+    rescue LoadError
       puts 'Brakeman not installed'
       exit 0
     end
