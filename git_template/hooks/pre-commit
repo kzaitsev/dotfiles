@@ -2,6 +2,7 @@
 require 'set'
 
 RUBY_FILES = ['Rakefile', 'Gemfile', 'Capfile', 'Thorfile', 'Podfile', 'config.ru', /.*\.rake/, /.*\.cap/, /.*\.rb/]
+RAILS_FILES = ['config.ru', 'config/application.rb', 'config/environment.rb']
 FILES = `git diff --cached --name-only --diff-filter=ACM`.to_s.split("\n").map(&:strip)
 
 def rubocop
@@ -35,6 +36,12 @@ def rubocop
 end
 
 def brakeman
+  is_a_rails = RAILS_FILES.all? { |f| File.exist?(f) }
+  unless is_a_rails
+    puts 'Brakeman skipped (non-rails app)'
+    exit 0
+  end
+
   to_brakeman = FILES.select do |f|
     RUBY_FILES.find do |rf|
       f.match(rf)
