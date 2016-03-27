@@ -4,6 +4,7 @@ require 'set'
 RUBY_FILES = ['Rakefile', 'Gemfile', 'Capfile', 'Thorfile', 'Podfile', 'config.ru', /.*\.rake/, /.*\.cap/, /.*\.rb/]
 RAILS_FILES = ['config.ru', 'config/application.rb', 'config/environment.rb']
 FILES = `git diff --cached --name-only --diff-filter=ACM`.to_s.split("\n").map(&:strip)
+SKIP = ENV['SKIP'].to_s.split(',')
 
 def rubocop
   to_rubocop = FILES.select do |f|
@@ -70,6 +71,11 @@ scenarios = [:rubocop, :brakeman]
 pids = []
 
 scenarios.each do |scenario|
+  if SKIP.include?('all') || SKIP.include?(scenario.to_s)
+    puts "#{scenario} skipped"
+    next
+  end
+
   pids << fork do
     send(scenario)
   end
