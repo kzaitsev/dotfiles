@@ -1,3 +1,38 @@
-#!/bin/sh
+#!/usr/bin/env ruby
 
-/usr/local/bin/ctags -R *
+def ctags
+  puts 'Genrate ctags'
+
+  begin
+    system("nohup /usr/local/bin/ctags -R * > /dev/null 2>&1&")
+  rescue StandardError
+    exit 0
+  end
+end
+
+def spring
+  puts 'Stopping spring'
+
+  begin
+    system("nohup spring stop > /dev/null 2>&1&")
+  rescue StandardError
+    exit 0
+  end
+end
+
+scenarios = [:spring, :ctags]
+pids = []
+
+scenarios.each do |scenario|
+  pids << fork do
+    send(scenario)
+  end
+end
+
+exit_status = 0
+pids.each do |pid|
+  _, status = Process.wait2(pid)
+  exit_status = status.exitstatus if status.exitstatus > 0
+end
+
+exit exit_status
