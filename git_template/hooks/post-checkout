@@ -1,38 +1,14 @@
 #!/usr/bin/env ruby
 
-def ctags
-  puts 'Genrate ctags'
+path = if File.symlink?(__FILE__)
+         File.expand_path('../../lib/git_hook.rb', File.readlink(__FILE__))
+       else
+         File.expand_path('../../lib/git_hook.rb', __FILE__)
+       end
 
-  begin
-    system("nohup /usr/local/bin/ctags -R * > /dev/null 2>&1&")
-  rescue StandardError
-    exit 0
-  end
+if File.exist?(path)
+  require path
+  GitHook.post_checkout
+else
+  puts 'GitHook not found'
 end
-
-def spring
-  puts 'Stopping spring'
-
-  begin
-    system("nohup spring stop > /dev/null 2>&1&")
-  rescue StandardError
-    exit 0
-  end
-end
-
-scenarios = [:spring, :ctags]
-pids = []
-
-scenarios.each do |scenario|
-  pids << fork do
-    send(scenario)
-  end
-end
-
-exit_status = 0
-pids.each do |pid|
-  _, status = Process.wait2(pid)
-  exit_status = status.exitstatus if status.exitstatus > 0
-end
-
-exit exit_status
