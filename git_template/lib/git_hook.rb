@@ -38,25 +38,17 @@ module GitHook
 
     def spawn_scenarios(scenarios)
       pids = []
-      scenarios.select! do |scenario|
-        if scenario_exist?(scenario)
-          true
-        else
-          puts "unsupported #{scenario}"
-          false
-        end
-      end
 
       scenarios.each do |scenario|
-        if SKIP.include?('all') || SKIP.include?(scenario.to_s)
+        if SKIP.include?('all')
+          puts 'All scenarios skipped'
+          exit 0
+        elsif SKIP.any? { |s| s == scenario.to_s }
           puts "#{scenario} skipped"
-          next
-        end
-
-        pids << fork do
-          klass = SCENARIOS[scenario]
-          scenario_class = klass.new
-          scenario_class.run
+        elsif scenario_exist?(scenario)
+          pids << spawn_scenario(scenario)
+        else
+          puts "unsupported #{scenario}"
         end
       end
 
@@ -67,6 +59,14 @@ module GitHook
       end
 
       exit exit_status
+    end
+
+    def spawn_scenario(scenario)
+      fork do
+        klass = SCENARIOS[scenario]
+        scenario_class = klass.new
+        scenario_class.run
+      end
     end
 
     def scenario_exist?(scenario)
