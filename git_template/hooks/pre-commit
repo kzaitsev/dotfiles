@@ -22,7 +22,7 @@ def rubocop
             yml.each_pair do |key, value|
               next unless key.to_s.match(/(Lint\/.*|Metrics\/.*|Style\/.*)/)
 
-              if value['Exclude'].is_a?(Array)
+              if value.is_a?(Hash) && value['Exclude'].is_a?(Array)
                 value['Exclude'].each do |exclude|
                   excludes << exclude
                 end
