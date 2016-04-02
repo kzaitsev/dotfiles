@@ -13,7 +13,7 @@ def rubocop
   rules = if File.exist?(local_rubocop)
             yml = YAML.load_file(local_rubocop)
 
-            excludes = if yml['AllCops'] && yml['AllCops']['Exclude'].is_a?(Array)
+            excludes = if yml['AllCops'].is_a?(Hash) && yml['AllCops']['Exclude'].is_a?(Array)
                          yml['AllCops']['Exclude']
                        else
                          []
