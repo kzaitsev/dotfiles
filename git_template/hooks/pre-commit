@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require 'set'
+require 'yaml'
 
 RUBY_FILES = ['Rakefile', 'Gemfile', 'Capfile', 'Thorfile', 'Podfile', 'config.ru', /.*\.rake/, /.*\.cap/, /.*\.rb/]
 RAILS_FILES = ['config.ru', 'config/application.rb', 'config/environment.rb']
@@ -7,9 +8,47 @@ FILES = `git diff --cached --name-only --diff-filter=ACM`.to_s.split("\n").map(&
 SKIP = ENV['SKIP'].to_s.split(',')
 
 def rubocop
+  local_rubocop = File.join(Dir.pwd, '.rubocop.yml')
+
+  rules = if File.exist?(local_rubocop)
+            yml = YAML.load_file(local_rubocop)
+
+            excludes = if yml['AllCops'] && yml['AllCops']['Exclude'].is_a?(Array)
+                         yml['AllCops']['Exclude']
+                       else
+                         []
+                       end
+
+            yml.each_pair do |key, value|
+              next unless key.to_s.match(/(Lint\/.*|Metrics\/.*|Style\/.*)/)
+
+              if value['Exclude'].is_a?(Array)
+                value['Exclude'].each do |exclude|
+                  excludes << exclude
+                end
+              end
+            end
+
+            excludes.map! do |exclude|
+              if exclude.match('/\*\*/\*')
+                Dir[exclude]
+              else
+                exclude
+              end
+            end
+
+            excludes.flatten
+          else
+            []
+          end
+
+  puts rules
+
   to_rubocop = FILES.select do |f|
     RUBY_FILES.find do |rf|
-      if f.match('Gemfile')
+      if rules.any? { |r| f.match(r) }
+        false
+      elsif f.match('Gemfile')
         false
       else
         f.match(rf)
