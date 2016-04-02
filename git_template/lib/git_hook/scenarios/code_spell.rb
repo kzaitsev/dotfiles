@@ -10,13 +10,17 @@ module GitHook
 
       def initialize
         if executable.nil?
-          puts 'codespell not installed: https://github.com/lucasdemarchi/codespell'
+          LOGGER.bold_warning 'CodeSpell not installed: https://github.com/lucasdemarchi/codespell'
           exit 0
         end
       end
 
       def run
-        puts 'Starting codespell'
+        if FILES.empty?
+          LOGGER.success 'CodeSpell skiped (nothing to do)'
+          exit 0
+        end
+
         output = IO.popen([executable, '-c', FILES].flatten.join(' '))
 
         res = output.readlines.reject do |line|

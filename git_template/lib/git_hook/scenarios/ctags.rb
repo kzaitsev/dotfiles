@@ -2,7 +2,7 @@ module GitHook
   module Scenarios
     class Ctags < Base
       def run
-        puts 'Genrate ctags'
+        LOGGER.bold 'Genrate ctags'
 
         begin
           tags = File.join('.git', 'tags')

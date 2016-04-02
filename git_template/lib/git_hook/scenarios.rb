@@ -23,7 +23,7 @@ module GitHook
           rubygems_require
           require dependency
         rescue LoadError
-          puts "#{dependency} not installed"
+          LOGGER.bold_warning "#{dependency} not installed"
           exit exit_code
         end
       end

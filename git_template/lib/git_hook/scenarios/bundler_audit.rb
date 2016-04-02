@@ -7,7 +7,7 @@ module GitHook
 
       def run
         if FILES.grep(/Gemfile(\.lock|)/).empty?
-          puts 'skip bundler audit'
+          LOGGER.success 'Bundler Audit skipped (nothing to do)'
           exit 0
         else
           Bundler::Audit::CLI.start

@@ -2,7 +2,7 @@ module GitHook
   module Scenarios
     class Spring < Base
       def run
-        puts 'Stopping spring'
+        LOGGER.bold 'Stopping spring'
 
         begin
           system("nohup spring stop > /dev/null 2>&1&")

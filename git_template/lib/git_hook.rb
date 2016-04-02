@@ -1,6 +1,7 @@
 $:.unshift(File.dirname(__FILE__))
 
 require 'git_hook/scenarios'
+require 'git_hook/logger'
 
 module GitHook
   SKIP = ENV['SKIP'].to_s.split(',')
@@ -15,6 +16,7 @@ module GitHook
     spring: GitHook::Scenarios::Spring,
     code_spell: GitHook::Scenarios::CodeSpell
   }
+  LOGGER = GitHook::Logger.new(STDOUT)
 
   class << self
     def pre_commit
@@ -42,14 +44,14 @@ module GitHook
 
       scenarios.each do |scenario|
         if SKIP.include?('all')
-          puts 'All scenarios skipped'
+          LOGGER.warning 'All scenarios skipped'
           exit 0
         elsif SKIP.any? { |s| s == scenario.to_s }
-          puts "#{scenario} skipped"
+          LOGGER.warning "#{scenario} skipped"
         elsif scenario_exist?(scenario)
           pids << spawn_scenario(scenario)
         else
-          puts "unsupported #{scenario}"
+          LOGGER.warning "unsupported #{scenario}"
         end
       end
 

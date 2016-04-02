@@ -9,7 +9,7 @@ module GitHook
 
       def run
         if filtered.empty?
-          puts 'Rubocop skiped'
+          LOGGER.success 'Rubocop skiped (nothing to do)'
           exit 0
         else
           config_store = RuboCop::ConfigStore.new
