@@ -42,8 +42,6 @@ def rubocop
             []
           end
 
-  puts rules
-
   to_rubocop = FILES.select do |f|
     RUBY_FILES.find do |rf|
       if rules.any? { |r| f.match(r) }
