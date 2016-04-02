@@ -53,7 +53,6 @@ AllCops:
     - '**/Podfile'
     - '**/Thorfile'
     - '**/Vagrantfile'
-  Exclude:
 
 Style/EmptyLines:
   Enabled: false

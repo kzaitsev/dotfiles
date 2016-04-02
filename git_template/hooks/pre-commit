@@ -9,7 +9,11 @@ SKIP = ENV['SKIP'].to_s.split(',')
 def rubocop
   to_rubocop = FILES.select do |f|
     RUBY_FILES.find do |rf|
-      f.match(rf)
+      if f.match('Gemfile')
+        false
+      else
+        f.match(rf)
+      end
     end
   end
 
