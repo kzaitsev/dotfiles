@@ -43,13 +43,15 @@ def rubocop
           end
 
   to_rubocop = FILES.select do |f|
-    RUBY_FILES.find do |rf|
-      if rules.any? { |r| f.match(r) }
-        false
-      elsif f.match('Gemfile')
-        false
-      else
-        f.match(rf)
+    if rules.any? { |r| f.match(r) }
+      false
+    else
+      RUBY_FILES.find do |rf|
+        if f.match('Gemfile')
+          false
+        else
+          f.match(rf)
+        end
       end
     end
   end
