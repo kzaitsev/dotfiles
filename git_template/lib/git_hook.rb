@@ -12,12 +12,13 @@ module GitHook
     brakeman: GitHook::Scenarios::Brakeman,
     bundler_audit: GitHook::Scenarios::BundlerAudit,
     ctags: GitHook::Scenarios::Ctags,
-    spring: GitHook::Scenarios::Spring
+    spring: GitHook::Scenarios::Spring,
+    code_spell: GitHook::Scenarios::CodeSpell
   }
 
   class << self
     def pre_commit
-      scenarios = [:rubocop, :brakeman, :bundler_audit]
+      scenarios = [:rubocop, :brakeman, :bundler_audit, :code_spell]
 
       spawn_scenarios(scenarios)
     end
