@@ -11,6 +11,7 @@
 [user]
 	email = kirik910@gmail.com
 	name = Kirill Zaitsev
+	signingkey = C0755B77
 [alias]
 	permission-reset = !git diff -p -R | grep -E \"^(diff|(old|new) mode)\" | git apply
 [init]
