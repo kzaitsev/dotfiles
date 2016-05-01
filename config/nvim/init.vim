@@ -265,6 +265,7 @@ noremap <Right> <NOP>
 set mouse=""
 
 let mapleader=","
+nmap <Leader>k :DashtContext <C-R><C-W><CR>
 nmap <Leader>af :Autoformat<CR>
 nmap <Leader>n :NERDTreeToggle<CR>
 nmap <Leader>g :Ag!<CR>
