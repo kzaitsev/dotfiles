@@ -1,111 +1,115 @@
-set nocompatible
+if &compatible
+  set nocompatible               " Be iMproved
+endif
+
 filetype off
 
-set rtp+=~/.vim/bundle/Vundle.vim
+set runtimepath^=~/.config/nvim/bundle/neobundle.vim/
 
-" Vundle
-call vundle#begin()
-  Plugin 'VundleVim/Vundle.vim'
-  Plugin 'tpope/vim-fugitive'
-  Plugin 'airblade/vim-gitgutter'
-  Plugin 'L9'
+call neobundle#begin(expand('~/.config/nvim/bundle'))
+  NeoBundleFetch 'Shougo/neobundle.vim'
+
+  NeoBundle 'tpope/vim-fugitive'
+  NeoBundle 'airblade/vim-gitgutter'
 
   " RSpec
-  Plugin 'thoughtbot/vim-rspec'
+  NeoBundle 'thoughtbot/vim-rspec'
 
   " Formatter
-  Plugin 'Chiel92/vim-autoformat'
+  NeoBundle 'Chiel92/vim-autoformat'
 
   " Vim ident guides
-  Plugin 'nathanaelkane/vim-indent-guides'
+  NeoBundle 'nathanaelkane/vim-indent-guides'
 
   " Xkb switch
-  Plugin 'lyokha/vim-xkbswitch'
+  NeoBundle 'lyokha/vim-xkbswitch'
 
   " Hybrid theme
-  Plugin 'w0ng/vim-hybrid'
+  NeoBundle 'w0ng/vim-hybrid'
 
   " Whitespaces
-  Plugin 'ntpeters/vim-better-whitespace'
+  NeoBundle 'ntpeters/vim-better-whitespace'
 
   " VIM lightline
-  Plugin 'itchyny/lightline.vim'
+  NeoBundle 'itchyny/lightline.vim'
 
   " Ctags
-  Plugin 'szw/vim-tags'
+  NeoBundle 'szw/vim-tags'
 
   " TMUX support
-  Plugin 'jpalardy/vim-slime'
-  Plugin 'jgdavey/tslime.vim'
-  Plugin 'edkolev/tmuxline.vim'
+  NeoBundle 'jpalardy/vim-slime'
+  NeoBundle 'jgdavey/tslime.vim'
+  NeoBundle 'edkolev/tmuxline.vim'
 
   " Search
-  Plugin 'ctrlpvim/ctrlp.vim'
-  Plugin 'junegunn/fzf'
-  Plugin 'rking/ag.vim'
+  NeoBundle 'ctrlpvim/ctrlp.vim'
+  NeoBundle 'junegunn/fzf'
+  NeoBundle 'rking/ag.vim'
 
   " NERDTree file browser
-  Plugin 'scrooloose/nerdtree'
-  Plugin 'Xuyuanp/nerdtree-git-plugin'
-  Plugin 'jistr/vim-nerdtree-tabs'
+  NeoBundle 'scrooloose/nerdtree'
+  NeoBundle 'Xuyuanp/nerdtree-git-plugin'
+  NeoBundle 'jistr/vim-nerdtree-tabs'
 
   " NERDCommenter
-  Plugin 'scrooloose/nerdcommenter'
+  NeoBundle 'scrooloose/nerdcommenter'
 
   " Editorconfig
-  Plugin 'editorconfig/editorconfig-vim'
+  NeoBundle 'editorconfig/editorconfig-vim'
 
   " Syntax analyze ( so slow )
-  Plugin 'scrooloose/syntastic'
+  NeoBundle 'scrooloose/syntastic'
 
   " Languages support
   " Scala
-  Plugin 'derekwyatt/vim-scala'
+  NeoBundle 'derekwyatt/vim-scala'
 
   " HOCON
-  Plugin 'GEverding/vim-hocon'
+  NeoBundle 'GEverding/vim-hocon'
 
   " Ruby
-  Plugin 'vim-ruby/vim-ruby'
-  Plugin 'Blackrush/vim-gocode'
-  Plugin 'tpope/vim-rails'
+  NeoBundle 'vim-ruby/vim-ruby'
+  NeoBundle 'tpope/vim-rails'
 
   " Crystal
-  Plugin 'rhysd/vim-crystal'
+  NeoBundle 'rhysd/vim-crystal'
 
   " Go
-  Plugin 'fatih/vim-go'
+  NeoBundle 'fatih/vim-go'
 
   " Coffee
-  Plugin 'kchmck/vim-coffee-script'
+  NeoBundle 'kchmck/vim-coffee-script'
 
   " ReactJS
-  Plugin 'mxw/vim-jsx'
+  NeoBundle 'mxw/vim-jsx'
 
   " Mustache, handlebars
-  Plugin 'mustache/vim-mustache-handlebars'
+  NeoBundle 'mustache/vim-mustache-handlebars'
 
   " SLIM
-  Plugin 'onemanstartup/vim-slim'
+  NeoBundle 'onemanstartup/vim-slim'
 
   " Elixir
-  Plugin 'elixir-lang/vim-elixir'
-  Plugin 'awetzel/neovim-elixir'
+  NeoBundle 'elixir-lang/vim-elixir'
+  NeoBundle 'awetzel/neovim-elixir'
 
   " Jade
-  Plugin 'digitaltoad/vim-jade'
+  NeoBundle 'digitaltoad/vim-jade'
 
   " Haskell
-  Plugin 'neovimhaskell/haskell-vim'
+  NeoBundle 'neovimhaskell/haskell-vim'
 
   " Stylus
-  Plugin 'wavded/vim-stylus'
+  NeoBundle 'wavded/vim-stylus'
 
   " Fun
-  Plugin 'wakatime/vim-wakatime'
-call vundle#end()
+  NeoBundle 'wakatime/vim-wakatime'
+
+  NeoBundle 'Bugagazavr/dasht.vim'
+call neobundle#end()
 
 filetype plugin indent on
+NeoBundleCheck
 
 set background=dark
 colorscheme hybrid
@@ -150,6 +154,8 @@ let g:vim_tags_auto_generate = 1
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
+
+let g:dasht_context = { 'ruby': ['Ruby_2', 'Ruby_on_Rails_4'] }
 
 " Ag settings
 if executable('ag')
