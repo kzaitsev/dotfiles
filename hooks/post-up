@@ -6,11 +6,11 @@ ln -sv ~/.config/nvim ~/.vim
 ln -sv ~/.config/nvim/init.vim ~/.vimrc
 
 if hash git 2>/dev/null; then
-	if [[ ! -d ~/.config/nvim/bundle/Vundle.vim ]]; then
-		git clone https://github.com/VundleVim/Vundle.vim.git ~/.config/nvim/bundle/Vundle.vim
+	if [[ ! -d ~/.config/nvim/bundle/neobundle.vim ]]; then
+		git clone https://github.com/Shougo/neobundle.vim ~/.config/nvim/bundle/neobundle.vim
 	fi
 
-	$EDITOR -c "execute \"PluginInstall\" | qa"
+	$EDITOR -c "execute \"NeoBundleInstall\" | qa"
 fi
 
 if [[ ! -d ~/.dasht ]]; then
