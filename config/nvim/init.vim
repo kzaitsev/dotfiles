@@ -1,5 +1,5 @@
 if &compatible
-  et nocompatible               " Be iMproved
+  set nocompatible               " Be iMproved
 endif
 
 filetype off
