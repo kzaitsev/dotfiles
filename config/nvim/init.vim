@@ -1,5 +1,5 @@
 if &compatible
-  set nocompatible               " Be iMproved
+  et nocompatible               " Be iMproved
 endif
 
 filetype off
@@ -42,9 +42,8 @@ call neobundle#begin(expand('~/.config/nvim/bundle'))
   NeoBundle 'edkolev/tmuxline.vim'
 
   " Search
-  NeoBundle 'ctrlpvim/ctrlp.vim'
   NeoBundle 'junegunn/fzf'
-  NeoBundle 'rking/ag.vim'
+  NeoBundle 'junegunn/fzf.vim'
 
   " NERDTree file browser
   NeoBundle 'scrooloose/nerdtree'
@@ -80,8 +79,9 @@ call neobundle#begin(expand('~/.config/nvim/bundle'))
   " Coffee
   NeoBundle 'kchmck/vim-coffee-script'
 
-  " ReactJS
-  NeoBundle 'mxw/vim-jsx'
+  " Babel
+  NeoBundle 'jbgutierrez/vim-babel'
+  NeoBundle 'mattn/webapi-vim'
 
   " Mustache, handlebars
   NeoBundle 'mustache/vim-mustache-handlebars'
@@ -105,6 +105,7 @@ call neobundle#begin(expand('~/.config/nvim/bundle'))
   " Fun
   NeoBundle 'wakatime/vim-wakatime'
 
+  NeoBundle 'easymotion/vim-easymotion'
   NeoBundle 'Bugagazavr/dasht.vim'
 call neobundle#end()
 
@@ -141,7 +142,7 @@ autocmd BufWritePre * StripWhitespace
 " let g:nerdtree_tabs_open_on_console_startup = 1
 let g:nerdtree_tabs_focus_on_files = 1
 
-" Hide usless files
+" Hide usls files
 let NERDTreeIgnore = ['\.pyc$', '\.tags$', 'tags$', 'tags.lock$', '\.jar$', '^\.bzr$', '^\.hg$', '^\.git$', '\.swp$', '^\.svn', '^\.DS_Store$']
 
 " Show hidden items
@@ -157,20 +158,6 @@ let g:syntastic_auto_loc_list = 1
 
 let g:dasht_context = { 'ruby': ['Ruby_2', 'Ruby_on_Rails_4'] }
 
-" Ag settings
-if executable('ag')
-  " Use Ag over Grep
-  set grepprg=ag\ --nogroup\ --nocolor
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-else
-  " Fall back to using git ls-files if Ag is not available
-  let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
-  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others']
-endif
-
 " Autocomplete
 " let g:deoplete#enable_at_startup = 1
 
@@ -183,6 +170,9 @@ let g:go_highlight_methods = 1
 let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+let g:go_list_type = "quickfix"
 
 " Ruby settings
 let g:ruby_path = system('rvm current')
@@ -207,6 +197,21 @@ let g:XkbSwitchILayout = 'us'
 let g:XkbSwitchNLayout = 'us'
 let g:XkbSwitchSkipFt = [ 'nerdtree' ]
 let g:XkbSwitchLib = '/usr/local/lib/libxkbswitch.dylib'
+
+
+nnoremap <silent> <leader>m :exe 'Files ' . <SID>fzf_root()<CR>
+nnoremap <silent> <leader>a :execute 'Ag ' . input('Ag/')<CR>
+
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+imap <expr> <c-x><c-f> fzf#vim#complete#path('git ls-files $(git rev-parse --show-toplevel)')
+
+function! s:fzf_root()
+  let path = finddir(".git", expand("%:p:h").";")
+  return fnamemodify(substitute(path, ".git", "", ""), ":p:h")
+endfunction
 
 " Indent guides settings
 let g:indent_guides_auto_colors = 0
@@ -268,7 +273,6 @@ let mapleader=","
 nmap <Leader>k :DashtContext <C-R><C-W><CR>
 nmap <Leader>af :Autoformat<CR>
 nmap <Leader>n :NERDTreeToggle<CR>
-nmap <Leader>g :Ag!<CR>
 nmap <Leader>tn :tabnew<CR>
 nmap <Leader>f :FZF<CR>
 nmap <Leader>s :SyntasticCheck<CR>
