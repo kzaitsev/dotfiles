@@ -45,11 +45,11 @@ ZSH_THEME="nebirhos"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git vundle vim debian ruby rvm sudovagrant rails node npm knife gem cap bundler bower)
+plugins=(git vim debian ruby node npm gem bundler)
 
 # User configuration
 
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/Applications/Postgres.app/Contents/Versions/9.5/bin:$HOME/.dasht/bin"
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/Applications/Postgres.app/Contents/Versions/9.6/bin:$HOME/.dasht/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -79,8 +79,9 @@ fi
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 # aliases
 
-# GRVM
-[[ -s "$HOME/.grvm/scripts/grvm" ]] && source $HOME/.grvm/scripts/grvm
+# RBENV
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
 
 # NVM
 [[ -s "$HOME/.nvm/nvm.sh" ]] && source $HOME/.nvm/nvm.sh
@@ -91,6 +92,9 @@ fi
 # Travis
 [[ -s "$HOME/.travis/travis.sh" ]] && source $HOME/.travis/travis.sh
 
+export GOPATH="$HOME/Documents/go"
+export PATH="$PATH:$HOME/Documents/go/bin"
+
 # Linux brew
 # export PATH="$PATH:$HOME/.linuxbrew/bin"
 
@@ -98,7 +102,46 @@ function __githubOpen() {
 	open https://github.com/"$@"
 }
 
+function lspecs {
+	be rspec $(gst | grep 'spec.rb' | awk '{ print $2 }')
+}
+
 alias be="bundle exec"
 alias github=__githubOpen
 alias gdff="git diff"
 alias gclean='git branch --merged | grep -v "\*" | grep -v master | grep -v dev | xargs -n 1 git branch -d'
+
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*" --glob "!node_modules/*" --glob "!spec/cassettes/*"'
+
+fe() {
+  local files
+  IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
+  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+}
+
+fh() {
+  print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
+}
+
+fbr() {
+  local branches branch
+  branches=$(git branch -vv) &&
+  branch=$(echo "$branches" | fzf +m) &&
+  git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
+}
+
+c() {
+  local cols sep
+  cols=$(( COLUMNS / 3 ))
+  sep='{{::}}'
+
+  # Copy History DB to circumvent the lock
+  # - See http://stackoverflow.com/questions/8936878 for the file path
+  cp -f ~/Library/Application\ Support/Google/Chrome/Default/History /tmp/h
+
+  sqlite3 -separator $sep /tmp/h \
+    "select substr(title, 1, $cols), url
+     from urls order by last_visit_time desc" |
+  awk -F $sep '{printf "%-'$cols's  \x1b[36m%s\n", $1, $2}' |
+  fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs open
+}

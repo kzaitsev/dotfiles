@@ -4,124 +4,85 @@ endif
 
 filetype off
 
-set runtimepath^=~/.config/nvim/bundle/neobundle.vim/
+call plug#begin('~/.vim/plugged')
+  " Git
+  Plug 'tpope/vim-fugitive'
+  Plug 'airblade/vim-gitgutter'
 
-call neobundle#begin(expand('~/.config/nvim/bundle'))
-  NeoBundleFetch 'Shougo/neobundle.vim'
+  " Line length
+  Plug 'whatyouhide/vim-lengthmatters'
 
-  NeoBundle 'tpope/vim-fugitive'
-  NeoBundle 'airblade/vim-gitgutter'
+  " Endwise
+  Plug 'tpope/vim-endwise'
+
+  " Deoplete
+  Plug 'Shougo/deoplete.nvim', { 'on': [], 'do': ':UpdateRemotePlugins' }
+
+  " Bundler
+  Plug 'tpope/vim-bundler'
+
+  " Dasht
+  Plug 'Bugagazavr/dasht.vim', { 'do': ':UpdateRemotePlugins' }
+
+  " Editor config
+  Plug 'editorconfig/editorconfig-vim'
 
   " RSpec
-  NeoBundle 'thoughtbot/vim-rspec'
+  Plug 'thoughtbot/vim-rspec', { 'for': [ 'ruby' ] }
 
   " Formatter
-  NeoBundle 'Chiel92/vim-autoformat'
+  Plug 'Chiel92/vim-autoformat', { 'on': 'Autoformat' }
 
   " Vim ident guides
-  NeoBundle 'nathanaelkane/vim-indent-guides'
-
-  " Xkb switch
-  NeoBundle 'lyokha/vim-xkbswitch'
+  Plug 'nathanaelkane/vim-indent-guides'
 
   " Hybrid theme
-  NeoBundle 'w0ng/vim-hybrid'
+  Plug 'w0ng/vim-hybrid'
 
   " Whitespaces
-  NeoBundle 'ntpeters/vim-better-whitespace'
+  Plug 'ntpeters/vim-better-whitespace'
 
   " VIM lightline
-  NeoBundle 'itchyny/lightline.vim'
-
-  " Ctags
-  NeoBundle 'szw/vim-tags'
-
-  " TMUX support
-  NeoBundle 'jpalardy/vim-slime'
-  NeoBundle 'jgdavey/tslime.vim'
-  NeoBundle 'edkolev/tmuxline.vim'
+  Plug 'itchyny/lightline.vim'
 
   " Search
-  NeoBundle 'junegunn/fzf'
-  NeoBundle 'junegunn/fzf.vim'
+  Plug 'junegunn/fzf'
+  Plug 'junegunn/fzf.vim'
 
   " NERDTree file browser
-  NeoBundle 'scrooloose/nerdtree'
-  NeoBundle 'Xuyuanp/nerdtree-git-plugin'
-  NeoBundle 'jistr/vim-nerdtree-tabs'
+  Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+  Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
+
+  " Tabs
+  Plug 'jistr/vim-nerdtree-tabs'
 
   " NERDCommenter
-  NeoBundle 'scrooloose/nerdcommenter'
-
-  " Editorconfig
-  NeoBundle 'editorconfig/editorconfig-vim'
-
-  " Syntax analyze ( so slow )
-  NeoBundle 'scrooloose/syntastic'
+  Plug 'scrooloose/nerdcommenter'
 
   " Languages support
-  " Scala
-  NeoBundle 'derekwyatt/vim-scala'
-
-  " HOCON
-  NeoBundle 'GEverding/vim-hocon'
-
   " Ruby
-  NeoBundle 'vim-ruby/vim-ruby'
-  NeoBundle 'tpope/vim-rails'
-
-  " Crystal
-  NeoBundle 'rhysd/vim-crystal'
+  Plug 'vim-ruby/vim-ruby', { 'for': [ 'ruby' ] }
+  Plug 'tpope/vim-rails', { 'for': [ 'ruby' ] }
 
   " Go
-  NeoBundle 'fatih/vim-go'
-
-  " Coffee
-  NeoBundle 'kchmck/vim-coffee-script'
-
-  " Babel
-  NeoBundle 'jbgutierrez/vim-babel'
-  NeoBundle 'mattn/webapi-vim'
-
-  " Mustache, handlebars
-  NeoBundle 'mustache/vim-mustache-handlebars'
-
-  " SLIM
-  NeoBundle 'onemanstartup/vim-slim'
-
-  " Elixir
-  NeoBundle 'elixir-lang/vim-elixir'
-  NeoBundle 'awetzel/neovim-elixir'
-
-  " Jade
-  NeoBundle 'digitaltoad/vim-jade'
-
-  " Haskell
-  NeoBundle 'neovimhaskell/haskell-vim'
-
-  " Stylus
-  NeoBundle 'wavded/vim-stylus'
-
-  " Fun
-  NeoBundle 'wakatime/vim-wakatime'
-
-  NeoBundle 'easymotion/vim-easymotion'
-  NeoBundle 'Bugagazavr/dasht.vim'
-call neobundle#end()
+  Plug 'fatih/vim-go', { 'for': 'go' }
+call plug#end()
 
 filetype plugin indent on
-NeoBundleCheck
 
 set background=dark
 colorscheme hybrid
 syntax on
 
-set tags=.git/tags
 set dictionary=/usr/share/dict/words
 set langmenu=en_US.UTF-8
 set encoding=utf-8
 set fileencoding=utf-8
 set number
+set ignorecase
+set smartcase
+set incsearch
+set autoread
 
 " Use system clipboard
 set clipboard=unnamed
@@ -148,20 +109,29 @@ let NERDTreeIgnore = ['\.pyc$', '\.tags$', 'tags$', 'tags.lock$', '\.jar$', '^\.
 " Show hidden items
 let NERDTreeShowHidden = 1
 
-" Ctags
-let g:vim_tags_directories = [".git", ".hg", ".svn", ".bzr"]
-let g:vim_tags_gems_tags_command = "{CTAGS} -R {OPTIONS} `bundle show --paths` 2>/dev/null"
-let g:vim_tags_auto_generate = 1
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-
+" Dasht
 let g:dasht_context = { 'ruby': ['Ruby_2', 'Ruby_on_Rails_4'] }
 
-" Autocomplete
-" let g:deoplete#enable_at_startup = 1
+" Deoplete
+augroup lazy_load
+  autocmd!
+  autocmd! InsertEnter * call plug#load('deoplete.nvim', 'vim-endwise')
+                      \| if exists('g:loaded_deoplete')
+                      \|   call deoplete#enable()
+                      \| endif
+                      \| autocmd! lazy_load
+augroup END
 
-" Scala support
+let g:deoplete#enable_ignore_case = 0
+let g:deoplete#enable_smart_case = 0
+let g:deoplete#delimiters = ['/', '.', '::', ':', '#']
+let g:deoplete#max_list = 5
+let g:deoplete#auto_complete_delay = 0
+let g:deoplete#auto_refresh_delay = 0
+let g:deoplete#sources = {}
+let g:deoplete#sources._ = ['buffer', 'tag']
+let g:deoplete#tag#cache_limit_size = 10000000
+let g:neocomplete#min_pattern_length = 2
 
 " Golang support
 let g:go_fmt_autosave = 1
@@ -170,37 +140,26 @@ let g:go_highlight_methods = 1
 let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
-let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
-let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 let g:go_list_type = "quickfix"
 
 " Ruby settings
-let g:ruby_path = system('rvm current')
+let g:ruby_path = system('rbenv which ruby')
 let g:ruby_indent_access_modifier_style = 'outdent'
 let ruby_operators = 1
 autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
 autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
 
-" Tmux support
-let g:slime_target = 'tmux'
-let g:slime_paste_file = "$HOME/.slime_paste"
-let g:slime_paste_file = tempname()
-let g:slime_default_config = {"socket_name": "default", "target_pane": "1"}
-
 " Git support
 autocmd Filetype gitcommit  setlocal spell textwidth=72
 
-" Xkb switch settings
-let g:XkbSwitchEnabled = 1
-let g:XkbSwitchILayout = 'us'
-let g:XkbSwitchNLayout = 'us'
-let g:XkbSwitchSkipFt = [ 'nerdtree' ]
-let g:XkbSwitchLib = '/usr/local/lib/libxkbswitch.dylib'
+" FZF
+let g:fzf_history_dir = '~/.fzf-history'
+let g:fzf_buffers_jump = 1
+let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+let g:fzf_tags_command = 'ripper-tags -R'
 
-
-nnoremap <silent> <leader>m :exe 'Files ' . <SID>fzf_root()<CR>
-nnoremap <silent> <leader>a :execute 'Ag ' . input('Ag/')<CR>
+command! -bang -nargs=* Find call fzf#vim#grep('rg --vimgrep --colors --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" '.shellescape(<q-args>), 1, <bang>0)
 
 imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)
@@ -208,14 +167,10 @@ imap <c-x><c-j> <plug>(fzf-complete-file-ag)
 imap <c-x><c-l> <plug>(fzf-complete-line)
 imap <expr> <c-x><c-f> fzf#vim#complete#path('git ls-files $(git rev-parse --show-toplevel)')
 
-function! s:fzf_root()
-  let path = finddir(".git", expand("%:p:h").";")
-  return fnamemodify(substitute(path, ".git", "", ""), ":p:h")
-endfunction
-
 " Indent guides settings
 let g:indent_guides_auto_colors = 0
 let indent_guides_color_change_percent = 10
+
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#212121 ctermbg=235
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#404040 ctermbg=237
 autocmd VimEnter * :IndentGuidesToggle
@@ -241,9 +196,11 @@ autocmd Filetype coffeescript setlocal ts=2 sw=2 expandtab
 autocmd Filetype crystal      setlocal ts=2 sw=2 expandtab
 autocmd Filetype cucumber     setlocal ts=2 sw=2 expandtab
 
+au BufRead,BufNewFile *.vue   set ft=html
+
 " Limit line size
-highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-match OverLength /\%81v.\+/
+let g:lengthmatters_start_at_column = 5000
+let g:lengthmatters_on_by_default = 1
 
 " Cursor
 if has('nvim')
@@ -267,15 +224,36 @@ noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
+noremap  <Up> ""
+noremap! <Up> <Esc>
+noremap  <Down> ""
+noremap! <Down> <Esc>
+noremap  <Left> ""
+noremap! <Left> <Esc>
+noremap  <Right> ""
+noremap! <Right> <Esc>
+noremap <PageUp> <NOP>
+noremap <PageDown> <NOP>
+noremap <S-Left> <NOP>
+noremap <S-Right> <NOP>
 set mouse=""
+
+nnoremap <C-\> :Tags <C-R><C-W><CR>
 
 let mapleader=","
 nmap <Leader>k :DashtContext <C-R><C-W><CR>
 nmap <Leader>af :Autoformat<CR>
 nmap <Leader>n :NERDTreeToggle<CR>
 nmap <Leader>tn :tabnew<CR>
-nmap <Leader>f :FZF<CR>
-nmap <Leader>s :SyntasticCheck<CR>
+
+" Fuzzy search
+nmap <Leader>fg :GFiles<CR>
+nmap <Leader>ft :Tags<CR>
+nmap <Leader>fa :Files<CR>
+nmap <Leader>fc :Commits<CR>
+nmap <Leader>aa :Ag<CR>
+nmap <Leader>gst :GFiles?<CR>
+
 nmap <Leader>b :Gblame<CR>
 nmap <Leader>d :Gdiff<CR>
 
@@ -283,3 +261,69 @@ map <Leader>rt :call RunCurrentSpecFile()<CR>
 map <Leader>rs :call RunNearestSpec()<CR>
 map <Leader>rl :call RunLastSpec()<CR>
 map <Leader>ra :call RunAllSpecs()<CR>
+
+" Lightline expremental
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
+      \   'right': [ [ 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+      \ },
+      \ 'component_function': {
+      \   'fugitive': 'LightlineFugitive',
+      \   'filename': 'LightlineFilename',
+      \   'fileformat': 'LightlineFileformat',
+      \   'filetype': 'LightlineFiletype',
+      \   'fileencoding': 'LightlineFileencoding',
+      \   'mode': 'LightlineMode',
+      \ },
+      \ 'subseparator': { 'left': '|', 'right': '|' }
+      \ }
+
+function! LightlineModified()
+  return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+endfunction
+
+function! LightlineReadonly()
+  return &ft !~? 'help' && &readonly ? 'RO' : ''
+endfunction
+
+function! LightlineFilename()
+  let fname = expand('%:t')
+  return fname =~ '__Gundo\|NERD_tree' ? '' :
+        \ ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+        \ ('' != fname ? fname : '[No Name]') .
+        \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+endfunction
+
+function! LightlineFugitive()
+  try
+    if expand('%:t') !~? 'Gundo\|NERD' && exists('*fugitive#head')
+      let mark = ''  " edit here for cool mark
+      let branch = fugitive#head()
+      return branch !=# '' ? mark.branch : ''
+    endif
+  catch
+  endtry
+  return ''
+endfunction
+
+function! LightlineFileformat()
+  return winwidth(0) > 70 ? &fileformat : ''
+endfunction
+
+function! LightlineFiletype()
+  return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+endfunction
+
+function! LightlineFileencoding()
+  return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
+endfunction
+
+function! LightlineMode()
+  let fname = expand('%:t')
+  return fname == '__Gundo__' ? 'Gundo' :
+        \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
+        \ fname =~ 'NERD_tree' ? 'NERDTree' :
+        \ winwidth(0) > 60 ? lightline#mode() : ''
+endfunction
