@@ -1,2 +1,0 @@
-EXCLUDES="README.md LICENSE vim.tags zsh.tags sh.tags tags com.googlecode.iterm2.plist rcrc images Brewfile"
-DOTFILES_DIRS="$HOME/dotfiles-local $HOME/.dotfiles"
