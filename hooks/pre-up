@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if hash languagesetup 2>/dev/null; then
+	sudo languagesetup -langspec English
+fi
+
 if hash brew 2>/dev/null; then
 	brew bundle install --file="$(dirname $RCRC)/Brewfile"
 

@@ -13,6 +13,8 @@ brew 'mysql'
 brew 'postgres'
 brew 'redis'
 brew 'ripgrep'
+brew 'rbenv'
+brew 'ruby-build'
 
 tap 'neovim/neovim'
 brew 'neovim'
