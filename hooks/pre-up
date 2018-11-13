@@ -1,22 +1,13 @@
 #!/bin/sh
 
 if hash brew 2>/dev/null; then
-	brew install zsh git python python3 the_silver_searcher tmux fzf ctags w3m
-	brew tap neovim/neovim
-	brew install neovim
-
-	if [ -f ~/.zshrc ]; then
-		mv ~/.zshrc ~/.zshrc.backup
-	fi
+	brew bundle install --file="$(dirname $RCRC)/Brewfile"
 
 	if [ -d ~/.oh-my-zsh ]; then
 		sh ~/.oh-my-zsh/tools/upgrade.sh
 	else
-		if hash curl 2>/dev/null; then
-			sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-		elif hash wget 2>/dev/null; then
-			sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-		fi
+                git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+                chsh -s /usr/local/bin/zsh
 	fi
 fi
 

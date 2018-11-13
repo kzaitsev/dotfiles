@@ -10,8 +10,6 @@
 	name = Kirill Zaitsev
 [alias]
 	permission-reset = !git diff -p -R | grep -E \"^(diff|(old|new) mode)\" | git apply
-[init]
-	templatedir = ~/.git_template
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
