@@ -21,9 +21,6 @@ call plug#begin('~/.vim/plugged')
   " Bundler
   Plug 'tpope/vim-bundler'
 
-  " Dasht
-  Plug 'Bugagazavr/dasht.vim', { 'do': ':UpdateRemotePlugins' }
-
   " Editor config
   Plug 'editorconfig/editorconfig-vim'
 
@@ -63,6 +60,9 @@ call plug#begin('~/.vim/plugged')
   " Ruby
   Plug 'vim-ruby/vim-ruby', { 'for': [ 'ruby' ] }
   Plug 'tpope/vim-rails', { 'for': [ 'ruby' ] }
+
+  " Multiple cursors
+  Plug 'terryma/vim-multiple-cursors'
 
   " Go
   Plug 'fatih/vim-go', { 'for': 'go' }
@@ -109,9 +109,6 @@ let NERDTreeIgnore = ['\.pyc$', '\.tags$', 'tags$', 'tags.lock$', '\.jar$', '^\.
 " Show hidden items
 let NERDTreeShowHidden = 1
 
-" Dasht
-let g:dasht_context = { 'ruby': ['Ruby_2', 'Ruby_on_Rails_4'] }
-
 " Deoplete
 augroup lazy_load
   autocmd!
@@ -156,7 +153,7 @@ autocmd Filetype gitcommit  setlocal spell textwidth=72
 " FZF
 let g:fzf_history_dir = '~/.fzf-history'
 let g:fzf_buffers_jump = 1
-let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+let g:fzf_commits_log_options = '--color=always --format="%C(auto)%h%d %s (%C(blue)%C(bold)%an) %C(black)%C(bold)%cr"'
 let g:fzf_tags_command = 'ripper-tags -R'
 
 command! -bang -nargs=* Find call fzf#vim#grep('rg --vimgrep --colors --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" '.shellescape(<q-args>), 1, <bang>0)
@@ -241,7 +238,6 @@ set mouse=""
 nnoremap <C-\> :Tags <C-R><C-W><CR>
 
 let mapleader=","
-nmap <Leader>k :DashtContext <C-R><C-W><CR>
 nmap <Leader>af :Autoformat<CR>
 nmap <Leader>n :NERDTreeToggle<CR>
 nmap <Leader>tn :tabnew<CR>
@@ -250,7 +246,7 @@ nmap <Leader>tn :tabnew<CR>
 nmap <Leader>fg :GFiles<CR>
 nmap <Leader>ft :Tags<CR>
 nmap <Leader>fa :Files<CR>
-nmap <Leader>fc :Commits<CR>
+nmap <Leader>fc :BCommits<CR>
 nmap <Leader>aa :Ag<CR>
 nmap <Leader>gst :GFiles?<CR>
 
