@@ -77,8 +77,8 @@ cmd 'syntax on'
 
 ----- INDENT -----
 require("indent_blankline").setup {
-    char = "┊",
-    buftype_exclude = {"terminal"}
+	char = "┊",
+	buftype_exclude = {"terminal"}
 }
 
 ----- HOTKEYS -----
@@ -100,22 +100,22 @@ local actions = require('fzf-lua.actions')
 require('fzf-lua').setup {
 	preview_wrap = 'nowrap:hidden',
 	default_previewer = nil,
-  grep = {
-    prompt            = 'Rg❯ ',
-    input_prompt      = 'Grep For❯ ',
-    cmd               = "rg --vimgrep --hidden --column --line-number --no-heading --color=always --smart-case -g '!{.git,vendor,node_modules}/*'",
-    git_icons         = true,           -- show git icons?
-    file_icons        = true,           -- show file icons?
-    color_icons       = true,           -- colorize file|git icons
-    actions = {
-      ["default"]     = actions.file_edit,
-      ["ctrl-s"]      = actions.file_split,
-      ["ctrl-v"]      = actions.file_vsplit,
-      ["ctrl-t"]      = actions.file_tabedit,
-      ["ctrl-q"]      = actions.file_sel_to_qf,
-      ["ctrl-y"]      = function(selected) print(selected[2]) end,
-    }
-  },
+	grep = {
+		prompt            = 'Rg❯ ',
+		input_prompt      = 'Grep For❯ ',
+		cmd               = "rg --vimgrep --hidden --column --line-number --no-heading --color=always --smart-case -g '!{.git,vendor,node_modules}/*'",
+		git_icons         = true,           -- show git icons?
+		file_icons        = true,           -- show file icons?
+		color_icons       = true,           -- colorize file|git icons
+		actions = {
+			["default"]     = actions.file_edit,
+			["ctrl-s"]      = actions.file_split,
+			["ctrl-v"]      = actions.file_vsplit,
+			["ctrl-t"]      = actions.file_tabedit,
+			["ctrl-q"]      = actions.file_sel_to_qf,
+			["ctrl-y"]      = function(selected) print(selected[2]) end,
+		}
+	},
 }
 
 ----- TREESITTER -----
