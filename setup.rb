@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
+require 'fileutils'
+
+PYTHON_VERSION = ENV.fetch('PYTHON_VERSION', '3.9.6')
 OFFSET = 70
 
 def operation(op, &block)
@@ -35,8 +38,11 @@ operation('Clone oh-my-zsh') do
   end
 end
 
-%w[zshrc npmrc bundlerrc Brewfile pryrc gitignore_global gitconfig config].each do |sym|
+%w[zshrc npmrc bundlerrc Brewfile pryrc gitignore_global gitconfig config/nvim/init.lua config/nvim/lua/statusline.lua].each do |sym|
   operation("Create symlink ~/.#{sym}:") do
+    sub_path = sym.split('/')
+    FileUtils.mkdir_p("#{ENV['HOME']}/.#{sub_path.take(sub_path.size - 1).join('/')}") if sub_path.size > 1
+
     if File.exists?("#{ENV['HOME']}/.#{sym}")
       :skipped
     else
@@ -46,49 +52,51 @@ end
   end
 end
 
-operation('Create symlink ~/.vim:') do
-  if File.exists?("#{ENV['HOME']}/.vim")
-    :skipped
-  else
-    `ln -s #{ENV['HOME']}/.config/nvim #{ENV['HOME']}/.vim 2>&1 >/dev/null`
-    $? == 0 ? :success : :failed
-  end
-end
-
-operation('Create symlink ~/.vimrc:') do
-  if File.exists?("#{ENV['HOME']}/.vimrc")
-    :skipped
-  else
-    `ln -s #{ENV['HOME']}/.config/nvim/init.vim #{ENV['HOME']}/.vimrc 2>&1 >/dev/null`
-    $? == 0 ? :success : :failed
-  end
-end
-
 operation('Run brew bundle:') do
   system("brew bundle install --global 2>&1 >/dev/null")
   :success
 end
 
-operation('Install plug.vim:') do
-  if File.exists?("#{ENV['HOME']}/.config/nvim/autoload/plug.vim")
+operation('Install paq-nvim:') do
+  if Dir.exists?("#{ENV['HOME']}/.config/nvim/pack/paqs/start/paq-nvim")
     :skipped
   else
-    system("curl -fLo #{ENV['HOME']}/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim 2>&1 >/dev/null")
+    system("git clone --depth=1 https://github.com/savq/paq-nvim.git #{ENV['HOME']}/.config/nvim/pack/paqs/start/paq-nvim")
     $? == 0 ? :success : :failed
   end
 end
 
-operation('Install neovim for python2:') do
-  `pip2 install --upgrade neovim 2>&1 >/dev/null`
+operation('Install python3:') do
+  system("/usr/local/bin/pyenv install -s #{PYTHON_VERSION}")
+  $? == 0 ? :success : :failed
+end
+
+operation('Set global python3:') do
+  system("/usr/local/bin/pyenv global #{PYTHON_VERSION}")
+  $? == 0 ? :success : :failed
+end
+
+operation('Upgrade pip for python3:') do
+  system("PYENV_VERSION=#{PYTHON_VERSION} /usr/local/bin/pyenv exec pip install --upgrade -q pip")
   $? == 0 ? :success : :failed
 end
 
 operation('Install neovim for python3:') do
-  `pip3 install --upgrade neovim 2>&1 >/dev/null`
+  system("PYENV_VERSION=#{PYTHON_VERSION} /usr/local/bin/pyenv exec pip install --upgrade -q neovim")
   $? == 0 ? :success : :failed
 end
 
 operation('Perform PlugInstall for neovim:') do
-  system('nvim -c "execute \"PlugInstall\" | qa" 2>&1 >/dev/null')
+  system('nvim -c "execute \"PaqInstall\" | qa" 2>&1 >/dev/null')
+  $? == 0 ? :success : :failed
+end
+
+operation('Configure iTerm2 config path:') do
+  system("defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string \"#{ENV['HOME']}/.dotfiles\"")
+  $? == 0 ? :success : :failed
+end
+
+operation('Enable iTerm2 custom config path:') do
+  system("defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true")
   $? == 0 ? :success : :failed
 end

@@ -1,9 +1,5 @@
 cask_args appdir: '/Applications'
 
-tap 'thoughtbot/formulae'
-brew 'rcm'
-
-brew 'python2'
 brew 'python3'
 brew 'zsh'
 brew 'git'
@@ -32,3 +28,6 @@ cask 'spotify'
 cask 'spotify-notifications'
 cask 'iterm2'
 cask 'docker'
+
+tap 'homebrew/cask-fonts'
+cask 'font-jetbrains-mono-nerd-font'
