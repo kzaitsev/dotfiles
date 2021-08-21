@@ -88,18 +88,44 @@ map('n', '<Leader>af', '<cmd>Autoformat<CR>')
 map('n', '<Leader>n', '<cmd>NvimTreeToggle<CR>')
 map('n', '<Leader>tn', '<cmd>tabnew<CR>')
 map('n', '<Leader>fg', "<cmd>lua require('fzf-lua').git_files()<CR>")
-map('n', '<Leader>fa', "<cmd>lua require('fzf-lua').files({cwd=nil})<CR>")
+map('n', '<Leader>fh', "<cmd>lua require('fzf-lua').oldfiles({cwd_only=true})<CR>")
+map('n', '<Leader>fa', "<cmd>lua require('fzf-lua').files()<CR>")
 map('n', '<Leader>fc', "<cmd>lua require('fzf-lua').git_commits()<CR>")
 map('n', '<Leader>lg', "<cmd>lua require('fzf-lua').live_grep()<CR>")
 map('n', '<Leader>gst', '<cmd>GFiles?<CR>')
 map('n', '<Leader>b', '<cmd>Gblame<CR>')
 map('n', '<Leader>d', '<cmd>Gdiff<CR>')
 
+----- CUSTOM COMMANDS -----
+vim.api.nvim_exec(
+[[
+command! -nargs=1 Ag lua require('fzf-lua').grep({search=<q-args>})
+cabbrev ag Ag
+cabbrev AG Ag
+]],
+true)
+
 ----- FZF -----
 local actions = require('fzf-lua.actions')
 require('fzf-lua').setup {
 	preview_wrap = 'nowrap:hidden',
 	default_previewer = nil,
+	files = {
+		cwd_only					= true,
+		prompt            = 'Files❯ ',
+		cmd               = '',
+		git_icons         = true,           -- show git icons?
+		file_icons        = true,           -- show file icons?
+		color_icons       = true,           -- colorize file|git icons
+		actions = {
+			["default"]     = actions.file_edit,
+			["ctrl-s"]      = actions.file_split,
+			["ctrl-v"]      = actions.file_vsplit,
+			["ctrl-t"]      = actions.file_tabedit,
+			["ctrl-q"]      = actions.file_sel_to_qf,
+			["ctrl-y"]      = function(selected) print(selected[2]) end,
+		}
+	},
 	grep = {
 		prompt            = 'Rg❯ ',
 		input_prompt      = 'Grep For❯ ',
@@ -126,6 +152,13 @@ require('nvim-treesitter.configs').setup {
 		additional_vim_regex_highlighting = true
 	}
 }
+
+----- NVIM TREE -----
+g['nvim_tree_auto_close'] = true
+g['nvim_tree_gitignore'] = true
+g['nvim_tree_git_hl'] = true
+
+cmd 'set termguicolors'
 
 ----- Lualine -----
 require('statusline')
