@@ -11,6 +11,8 @@ brew 'redis'
 brew 'ripgrep'
 brew 'rbenv'
 brew 'ruby-build'
+brew 'pyenv'
+brew 'node'
 
 tap 'neovim/neovim'
 brew 'neovim'
