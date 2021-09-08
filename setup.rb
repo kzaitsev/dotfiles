@@ -55,6 +55,15 @@ end
   end
 end
 
+operation("Symlink Vagrantfile") do
+  if File.exists?("#{ENV['HOME']}/Vagrantfile")
+    :skipped
+  else
+    `ln -s #{ENV['HOME']}/.dotfiles/Vagrantfile #{ENV['HOME']}/Vagrantfile`
+    $? == 0 ? :success : :failed
+  end
+end
+
 operation('Run brew bundle:') do
   system("brew bundle install --global 2>&1 >/dev/null")
   :success
