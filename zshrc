@@ -83,6 +83,11 @@ fi
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 
+# Linux brew
+if [[ -s /home/linuxbrew/.linuxbrew/bin/brew ]] then
+	eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
+
 # NVM
 [[ -s "$HOME/.nvm/nvm.sh" ]] && source $HOME/.nvm/nvm.sh
 

@@ -52,8 +52,8 @@ paq {'nvim-treesitter/nvim-treesitter', run='TSUpdate'}
 ----- OPTIONS -----
 local indent, width = 2, 120
 
-opt.shiftwidth = indent
-opt.tabstop = indent
+--opt.shiftwidth = indent
+--opt.tabstop = indent
 opt.textwidth = width
 opt.background = 'dark'
 opt.dictionary = '/usr/share/dict/words'
@@ -75,6 +75,12 @@ cmd 'colorscheme hybrid'
 cmd 'filetype plugin indent on'
 cmd 'syntax on'
 
+vim.api.nvim_exec(
+[[
+autocmd Filetype json setlocal ts=2 sw=2 expandtab
+autocmd Filetype ruby setlocal ts=2 sw=2 expandtab
+]],
+true)
 ----- INDENT -----
 require("indent_blankline").setup {
 	char = "┊",

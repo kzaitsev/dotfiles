@@ -3,6 +3,7 @@
 require 'fileutils'
 
 PYTHON_VERSION = ENV.fetch('PYTHON_VERSION', '3.9.6')
+BREW_PREFIX = /darwin/ =~ RUBY_PLATFORM ? '/usr/local/bin' : '/home/linuxbrew/.linuxbrew/bin'
 OFFSET = 70
 
 def operation(op, &block)
@@ -24,9 +25,11 @@ def operation(op, &block)
   end
 end
 
-operation('Set lang:') do
-  system('sudo languagesetup -langspec English 2>&1 >/dev/null')
-  $? == 0 ? :success : :failed
+if /darwin/ =~ RUBY_PLATFORM
+  operation('Set lang:') do
+    system('sudo languagesetup -langspec English 2>&1 >/dev/null')
+    $? == 0 ? :success : :failed
+  end
 end
 
 operation('Clone oh-my-zsh') do
@@ -67,22 +70,22 @@ operation('Install paq-nvim:') do
 end
 
 operation('Install python3:') do
-  system("/usr/local/bin/pyenv install -s #{PYTHON_VERSION}")
+  system("#{BREW_PREFIX}/pyenv install -s #{PYTHON_VERSION}")
   $? == 0 ? :success : :failed
 end
 
 operation('Set global python3:') do
-  system("/usr/local/bin/pyenv global #{PYTHON_VERSION}")
+  system("#{BREW_PREFIX}/pyenv global #{PYTHON_VERSION}")
   $? == 0 ? :success : :failed
 end
 
 operation('Upgrade pip for python3:') do
-  system("PYENV_VERSION=#{PYTHON_VERSION} /usr/local/bin/pyenv exec pip install --upgrade -q pip")
+  system("PYENV_VERSION=#{PYTHON_VERSION} #{BREW_PREFIX}/pyenv exec pip install --upgrade -q pip")
   $? == 0 ? :success : :failed
 end
 
 operation('Install neovim for python3:') do
-  system("PYENV_VERSION=#{PYTHON_VERSION} /usr/local/bin/pyenv exec pip install --upgrade -q neovim")
+  system("PYENV_VERSION=#{PYTHON_VERSION} #{BREW_PREFIX}/pyenv exec pip install --upgrade -q neovim")
   $? == 0 ? :success : :failed
 end
 
@@ -91,12 +94,14 @@ operation('Perform PlugInstall for neovim:') do
   $? == 0 ? :success : :failed
 end
 
-operation('Configure iTerm2 config path:') do
-  system("defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string \"#{ENV['HOME']}/.dotfiles\"")
-  $? == 0 ? :success : :failed
-end
+if /darwin/ =~ RUBY_PLATFORM
+  operation('Configure iTerm2 config path:') do
+    system("defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string \"#{ENV['HOME']}/.dotfiles\"")
+    $? == 0 ? :success : :failed
+  end
 
-operation('Enable iTerm2 custom config path:') do
-  system("defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true")
-  $? == 0 ? :success : :failed
+  operation('Enable iTerm2 custom config path:') do
+    system("defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true")
+    $? == 0 ? :success : :failed
+  end
 end
