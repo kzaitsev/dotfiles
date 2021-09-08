@@ -42,6 +42,8 @@ paq {'vijaymarupudi/nvim-fzf'}
 paq {'kyazdani42/nvim-tree.lua'}
 -- Cursors
 paq {'terryma/vim-multiple-cursors'}
+--- Root
+paq {'ygm2/rooter.nvim'}
 -- Comments
 paq {'scrooloose/nerdcommenter'}
 -- ALE
@@ -86,6 +88,10 @@ require("indent_blankline").setup {
 	char = "┊",
 	buftype_exclude = {"terminal"}
 }
+
+----- ROOT -----
+g['rooter_pattern'] = {'.git'}
+g['outermost_root'] = true
 
 ----- HOTKEYS -----
 g['mapleader'] = ','
@@ -171,7 +177,7 @@ require('statusline')
 
 ----- ALE -----
 g['ale_ruby_rubocop_executable'] = 'bundle'
-g['ale_linters'] = {ruby={'ruby', 'rubocop'}}
+g['ale_linters'] = {ruby={'ruby', 'rubocop'}, typescript={'eslint'}}
 g['ale_lint_on_save'] = true
 g['ale_lint_on_enter'] = false
 g['ale_lint_on_text_changed'] = 'never'
