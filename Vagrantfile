@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "shell", inline: <<~SHELL
     apt-get update -y
-    apt-get install -y apt-transport-https ca-certificates gnupg lsb-release htop git ruby build-essential procps curl file zlib1g-dev
+    apt-get install -y apt-transport-https ca-certificates gnupg lsb-release htop git ruby build-essential procps curl file zlib1g-dev libsqlite3-dev libbz2-dev libffi-dev
 
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
@@ -26,5 +26,7 @@ Vagrant.configure("2") do |config|
     sudo -u vagrant echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/vagrant/.profile
 
     usermod -aG docker vagrant
+
+    sudo -u vagrant /bin/bash -c "source /home/vagrant/.profile && git clone https://github.com/Bugagazavr/dotfiles.git ~/.dotfiles && cd ~/.dotfiles && make"
   SHELL
 end
