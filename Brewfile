@@ -1,6 +1,7 @@
 cask_args appdir: '/Applications'
 
-brew 'python3'
+brew 'pyenv'
+brew 'llvm'
 brew 'zsh'
 brew 'git'
 brew 'the_silver_searcher'
@@ -17,6 +18,9 @@ brew 'node'
 tap 'neovim/neovim'
 brew 'neovim'
 
+cask 'slack'
+cask 'tiles'
+cask 'brave'
 cask 'google-chrome'
 cask 'postgres'
 cask '1password'

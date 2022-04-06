@@ -8,48 +8,50 @@ local function map(mode, lhs, rhs, opts)
 	api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
+vim.cmd [[packadd packer.nvim]]
+
 ----- Plugins -----
-local paq = require('paq-nvim').paq
---- Icons
-paq {'kyazdani42/nvim-web-devicons'}
-paq {'ryanoasis/vim-devicons', opt=true}
--- Git
-paq {'tpope/vim-fugitive'}
-paq {'airblade/vim-gitgutter'}
--- Line lenght
-paq {'whatyouhide/vim-lengthmatters'}
--- Autopairs
-paq {'windwp/nvim-autopairs'}
--- Editor config
-paq {'editorconfig/editorconfig-vim'}
--- RSpec
-paq {'thoughtbot/vim-rspec'}
--- Formatter
-paq {'Chiel92/vim-autoformat'}
--- Indent guides
-paq {'lukas-reineke/indent-blankline.nvim'}
--- Hybrid theme
-paq {'w0ng/vim-hybrid'}
--- Whitespaces
-paq {'ntpeters/vim-better-whitespace'}
--- Lualine
--- REMIND: Change it to https://github.com/hoob3rt/lualine.nvim in the future
-paq {'shadmansaleh/lualine.nvim'}
--- Search
-paq {'ibhagwan/fzf-lua'}
-paq {'vijaymarupudi/nvim-fzf'}
--- File browser
-paq {'kyazdani42/nvim-tree.lua'}
--- Cursors
-paq {'terryma/vim-multiple-cursors'}
---- Root
-paq {'ygm2/rooter.nvim'}
--- Comments
-paq {'scrooloose/nerdcommenter'}
--- ALE
-paq {'dense-analysis/ale'}
--- Languages support
-paq {'nvim-treesitter/nvim-treesitter', run='TSUpdate'}
+require('packer').startup(function()
+	-- Icons
+	use {'kyazdani42/nvim-web-devicons'}
+	use {'ryanoasis/vim-devicons', opt=true}
+	-- Git
+	use {'tpope/vim-fugitive'}
+	use {'airblade/vim-gitgutter'}
+	--
+	use {'whatyouhide/vim-lengthmatters'}
+	-- Autopairs
+	use {'windwp/nvim-autopairs'}
+	-- Editor config
+	use {'editorconfig/editorconfig-vim'}
+	-- RSpec
+	use {'thoughtbot/vim-rspec'}
+	-- Formatter
+	use {'Chiel92/vim-autoformat'}
+	-- Indent guides
+	use {'lukas-reineke/indent-blankline.nvim'}
+	-- Hybrid theme
+	use {'w0ng/vim-hybrid'}
+	-- Whitespaces
+	use {'ntpeters/vim-better-whitespace'}
+	-- Lualine
+	use {'nvim-lualine/lualine.nvim'}
+	-- Search
+	use {'ibhagwan/fzf-lua'}
+	use {'vijaymarupudi/nvim-fzf'}
+	-- File browser
+	use {'kyazdani42/nvim-tree.lua'}
+	-- Cursors
+	use {'terryma/vim-multiple-cursors'}
+	--- Root
+	use {'ygm2/rooter.nvim'}
+	-- Comments
+	use {'scrooloose/nerdcommenter'}
+	-- ALE
+	use {'dense-analysis/ale'}
+	-- Languages support
+	use {'nvim-treesitter/nvim-treesitter', run=':TSUpdate'}
+end)
 
 ----- OPTIONS -----
 local indent, width = 2, 120
@@ -105,7 +107,7 @@ map('n', '<Leader>fa', "<cmd>lua require('fzf-lua').files()<CR>")
 map('n', '<Leader>fc', "<cmd>lua require('fzf-lua').git_commits()<CR>")
 map('n', '<Leader>lg', "<cmd>lua require('fzf-lua').live_grep()<CR>")
 map('n', '<Leader>gst', '<cmd>GFiles?<CR>')
-map('n', '<Leader>b', '<cmd>Gblame<CR>')
+map('n', '<Leader>b', '<cmd>Git blame<CR>')
 map('n', '<Leader>d', '<cmd>Gdiff<CR>')
 
 ----- CUSTOM COMMANDS -----
@@ -166,9 +168,11 @@ require('nvim-treesitter.configs').setup {
 }
 
 ----- NVIM TREE -----
-g['nvim_tree_auto_close'] = true
-g['nvim_tree_gitignore'] = true
-g['nvim_tree_git_hl'] = true
+require('nvim-tree').setup {
+	nvim_tree_auto_close = true,
+	nvim_tree_gitignore = true,
+	nvim_tree_git_hl = true
+}
 
 cmd 'set termguicolors'
 

@@ -3,7 +3,7 @@
 require 'fileutils'
 
 PYTHON_VERSION = ENV.fetch('PYTHON_VERSION', '3.9.6')
-BREW_PREFIX = /darwin/ =~ RUBY_PLATFORM ? '/usr/local/bin' : '/home/linuxbrew/.linuxbrew/bin'
+BREW_PREFIX = /darwin/ =~ RUBY_PLATFORM ? '/opt/homebrew/bin' : '/home/linuxbrew/.linuxbrew/bin'
 OFFSET = 70
 
 def operation(op, &block)

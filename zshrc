@@ -79,13 +79,17 @@ fi
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 # aliases
 
-# RBENV
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
-
-# Linux brew
+# Brew
 if [[ -s /home/linuxbrew/.linuxbrew/bin/brew ]] then
 	eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+elif [[ -s /opt/homebrew/bin/brew ]] then
+	eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+# RBENV
+if [[ -s $(brew --prefix)/bin/rbenv ]] then
+	export PATH="$HOME/.rbenv/bin:$PATH"
+	eval "$(rbenv init -)"
 fi
 
 # NVM
