@@ -69,15 +69,6 @@ operation('Run brew bundle:') do
   :success
 end
 
-operation('Install paq-nvim:') do
-  if Dir.exists?("#{ENV['HOME']}/.config/nvim/pack/paqs/start/paq-nvim")
-    :skipped
-  else
-    system("git clone --depth=1 https://github.com/savq/paq-nvim.git #{ENV['HOME']}/.config/nvim/pack/paqs/start/paq-nvim")
-    $? == 0 ? :success : :failed
-  end
-end
-
 operation('Install python3:') do
   system("#{BREW_PREFIX}/pyenv install -s #{PYTHON_VERSION}")
   $? == 0 ? :success : :failed
@@ -90,16 +81,6 @@ end
 
 operation('Upgrade pip for python3:') do
   system("PYENV_VERSION=#{PYTHON_VERSION} #{BREW_PREFIX}/pyenv exec pip install --upgrade -q pip")
-  $? == 0 ? :success : :failed
-end
-
-operation('Install neovim for python3:') do
-  system("PYENV_VERSION=#{PYTHON_VERSION} #{BREW_PREFIX}/pyenv exec pip install --upgrade -q neovim")
-  $? == 0 ? :success : :failed
-end
-
-operation('Perform PlugInstall for neovim:') do
-  system('nvim -c "execute \"PaqInstall\" | qa" 2>&1 >/dev/null')
   $? == 0 ? :success : :failed
 end
 
