@@ -14,6 +14,7 @@ brew 'pyenv'
 brew 'node'
 brew 'mas'
 brew 'go'
+brew 'shared-mime-info'
 
 tap 'neovim/neovim'
 brew 'neovim'
