@@ -12,6 +12,7 @@ brew 'rbenv'
 brew 'ruby-build'
 brew 'pyenv'
 brew 'node'
+brew 'mas'
 
 tap 'neovim/neovim'
 brew 'neovim'

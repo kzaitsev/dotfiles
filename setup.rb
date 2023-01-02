@@ -2,9 +2,13 @@
 
 require 'fileutils'
 
-PYTHON_VERSION = ENV.fetch('PYTHON_VERSION', '3.9.6')
-BREW_PREFIX = /darwin/ =~ RUBY_PLATFORM ? '/usr/local/bin' : '/home/linuxbrew/.linuxbrew/bin'
+PYTHON_VERSION = ENV.fetch('PYTHON_VERSION', '3.11.1')
+BREW_PREFIX = /darwin/ =~ RUBY_PLATFORM ? '/opt/homebrew/bin' : '/home/linuxbrew/.linuxbrew/bin'
 OFFSET = 70
+MAC_APPSTORE = {
+  "amphetamine" => 937984704,
+  "1password" => 1333542190,
+}
 
 def operation(op, &block)
   if op.length < OFFSET
@@ -67,6 +71,12 @@ end
 operation('Run brew bundle:') do
   system("brew bundle install --global 2>&1 >/dev/null")
   :success
+end
+
+MAC_APPSTORE.each do |name, id|
+  operation("Install #{name}") do
+    system("mas install #{id}")
+  end
 end
 
 operation('Install python3:') do
