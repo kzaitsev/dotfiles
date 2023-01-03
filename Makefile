@@ -1,6 +1,6 @@
 PYTHON_VERSION ?= "3.10.4"
 
-mac: mac_system_setup zsh symlinks brewfile python nvim
+mac: mac_system_setup zsh symlinks brewfile mas python nvim
 
 zsh:
 	if [[ ! -d "${HOME}/.oh-my-zsh" ]]; then git clone https://github.com/robbyrussell/oh-my-zsh.git ${HOME}/.oh-my-zsh; fi
@@ -48,6 +48,10 @@ symlinks:
 .PHONY: brewfile
 brewfile:
 	brew bundle install --global 2>&1 >/dev/null
+
+mas:
+	mas install 937984704 # Amphetamine
+	mas install 1333542190 # 1Password7
 
 python:
 	$$(brew --prefix)/bin/pyenv install -s ${PYTHON_VERSION}
