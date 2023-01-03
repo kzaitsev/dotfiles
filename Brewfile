@@ -34,6 +34,7 @@ cask 'iterm2'
 cask 'finch'
 cask 'goland'
 cask 'datagrip'
+cask 'grammarly'
 
 tap 'homebrew/cask-fonts'
 cask 'font-jetbrains-mono-nerd-font'
