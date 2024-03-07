@@ -41,9 +41,8 @@ symlinks:
 	ln -sf ${HOME}/.dotfiles/gitignore_global ${HOME}/.gitignore_global
 	ln -sf ${HOME}/.dotfiles/gitconfig ${HOME}/.gitconfig
 	mkdir -p ${HOME}/.config/nvim
-	mkdir -p ${HOME}/.config/nvim/lua
 	ln -sf ${HOME}/.dotfiles/config/nvim/init.lua ${HOME}/.config/nvim/init.lua
-	ln -sf ${HOME}/.dotfiles/config/nvim/lua/statusline.lua ${HOME}/.config/nvim/lua/statusline.lua
+	ln -sf ${HOME}/.dotfiles/config/nvim/lua ${HOME}/.config/nvim/lua
 
 .PHONY: brewfile
 brewfile:
