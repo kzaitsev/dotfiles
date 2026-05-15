@@ -1,73 +1,70 @@
 return {
 	{
 		"ibhagwan/fzf-lua",
-		lazy = true,
-		keys = {
-			{ "<Leader>fg", "<cmd>lua require('fzf-lua').git_files()<CR>", desc = "Search files from GIT" },
-			{
-				"<Leader>fh",
-				"<cmd>lua require('fzf-lua').oldfiles({cwd_only=true})<CR>",
-				desc = "Search files from GIT history",
-			},
-			{ "<Leader>fa", "<cmd>lua require('fzf-lua').files()<CR>", desc = "Search by all files" },
-			{ "<Leader>fc", "<cmd>lua require('fzf-lua').git_commits()<CR>", desc = "Search by commits" },
-			{ "<Leader>lg", "<cmd>lua require('fzf-lua').live_grep()<CR>", desc = "Search by live grep" },
-		},
-    cmd = {
-      "Ag",
-    },
-		config = function()
-			vim.api.nvim_exec(
-				[[
-        command! -nargs=1 Ag lua require('fzf-lua').grep({search=<q-args>})
-        cabbrev ag Ag
-        cabbrev AG Ag
-        ]],
-				true
-			)
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		cmd = "FzfLua",
+		event = "VeryLazy",
+		keys = function()
+			local fzf = require("fzf-lua")
 
-			local actions = require("fzf-lua.actions")
-			require("fzf-lua").setup({
-				preview_wrap = "nowrap:hidden",
-				default_previewer = nil,
-				files = {
-					cwd_only = true,
-					prompt = "Files❯ ",
-					cmd = "",
-					git_icons = true, -- show git icons?
-					file_icons = true, -- show file icons?
-					color_icons = true, -- colorize file|git icons
-					actions = {
-						["default"] = actions.file_edit,
-						["ctrl-s"] = actions.file_split,
-						["ctrl-v"] = actions.file_vsplit,
-						["ctrl-t"] = actions.file_tabedit,
-						["ctrl-q"] = actions.file_sel_to_qf,
-						["ctrl-y"] = function(selected)
-							print(selected[2])
-						end,
-					},
+			return {
+				{ "<leader>fg", fzf.git_files, desc = "Search files from GIT" },
+				{ "<leader>fa", fzf.files, desc = "Search all files" },
+				{ "<leader>fc", fzf.git_commits, desc = "Search commits" },
+				{ "<leader>lg", fzf.live_grep, desc = "Live grep search" },
+				{ "<leader>fb", fzf.buffers, desc = "Search buffers" },
+				{
+					"<leader>fh",
+					function()
+						fzf.oldfiles({ cwd_only = true })
+					end,
+					desc = "Search recent files"
 				},
-				grep = {
-					prompt = "Rg❯ ",
-					input_prompt = "Grep For❯ ",
-					cmd = "rg --vimgrep --hidden --column --line-number --no-heading --color=always --smart-case -g '!{.git,vendor,node_modules}/*'",
-					git_icons = true, -- show git icons?
-					file_icons = true, -- show file icons?
-					color_icons = true, -- colorize file|git icons
-					actions = {
-						["default"] = actions.file_edit,
-						["ctrl-s"] = actions.file_split,
-						["ctrl-v"] = actions.file_vsplit,
-						["ctrl-t"] = actions.file_tabedit,
-						["ctrl-q"] = actions.file_sel_to_qf,
-						["ctrl-y"] = function(selected)
-							print(selected[2])
-						end,
-					},
-				},
-			})
+			}
 		end,
+		config = function(_, opts)
+			local fzf = require("fzf-lua")
+			fzf.setup(opts)
+
+			vim.api.nvim_create_user_command("Ag", function(args)
+				fzf.grep({ search = args.args })
+			end, { nargs = 1 })
+		end,
+		opts = {
+			fzf_colors = true,
+			defaults = {
+				formatter = "path.dirname_first",
+			},
+			winopts = {
+				width = 0.85,
+				height = 0.80,
+				preview = {
+					wrap = false,
+					layout = "vertical",
+					vertical = "down:45%",
+				},
+			},
+			files = {
+				cwd_only = true,
+				prompt = "Files> ",
+				git_icons = true,
+				file_icons = true,
+				color_icons = true,
+			},
+			git_files = {
+				prompt = "GitFiles> ",
+				git_icons = true,
+				file_icons = true,
+				color_icons = true,
+			},
+			grep = {
+				prompt = "Grep> ",
+				input_prompt = "Grep For> ",
+				cmd = "rg --vimgrep --hidden --column --line-number --no-heading --color=always --smart-case",
+				git_icons = true,
+				file_icons = true,
+				color_icons = true,
+			},
+		},
 	},
-	"vijaymarupudi/nvim-fzf",
 }
